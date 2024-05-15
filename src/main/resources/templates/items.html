@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>商品一覧</title>
+</head>
+
+<body>
+	<h1>商品一覧</h1>
+	<p th:text="${msg}" style="color: red;"></p>
+	<form action="/items" method="get">
+		<input type="hidden" name="categoryId" th:value="${categoryId}">
+		<input type="text" name="keyword" placeholder="検索キーワード" th:value="${keyword}">　
+		<input type="number" name="minprice" placeholder="最低金額" min="0" th:value="${minprice}">　
+		<input type="number" name="maxprice" placeholder="最高金額" min="0" th:value="${maxprice}">　
+		<button>検索</button>
+	</form>
+	<a href="/items">全商品</a>
+	<a th:each="c:${categories}" th:href="@{/items(categoryId=${c.id})} + ${url}">
+		<span th:text="${c.name}" style="padding-left: 10px;"></span>
+	</a>
+	<table border="1">
+		<tr>
+			<th>ID</th>
+			<th>商品名</th>
+			<th>カテゴリー</th>
+			<th>ショップ</th>
+			<th>価格(税込)</th>
+		</tr>
+		<tr th:each="item : ${items}">
+			<td th:text="${item.id}"></td>
+			<td th:utext="${item.url}"></td>
+			<th:block th:each="category:${categories}">
+				<td th:if="${item.categoryId == category.id}" th:text="${category.name}"></td>
+			</th:block>
+			<th:block th:each="shop:${shops}">
+				<td th:if="${item.shopId == shop.id}" th:text="${shop.name}"></td>
+			</th:block>
+			<td th:text="${item.price}"></td>
+		</tr>
+	</table>
+</body>
+
+</html>
