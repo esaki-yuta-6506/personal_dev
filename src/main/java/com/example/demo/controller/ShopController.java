@@ -171,7 +171,7 @@ public class ShopController {
 		return "addShop";
 	}
 
-	@PostMapping("/shop/{id}/add")
+	@PostMapping("/shop/add")
 	public String store(
 			@RequestParam(name = "name", defaultValue = "") String name,
 			Model model) {
