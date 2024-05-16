@@ -9,9 +9,11 @@
 <body>
 	<h1>商品一覧</h1>
 	<p th:text="${msg}" style="color: red;"></p>
+	<a href="/shop" th:if="${@account.modeId <= 2}">ショップメニュー</a>　
+	<a href="/admin" th:if="${@account.modeId == 1}">管理者メニュー</a>
 	<form action="/items" method="get">
 		<input type="hidden" name="categoryId" th:value="${categoryId}">
-		<input type="text" name="keyword" placeholder="検索キーワード" th:value="${keyword}">　
+		<input type="text" name="keyword" placeholder="検索キーワード" th:value="${keyword}"><br>
 		<input type="number" name="minprice" placeholder="最低金額" min="0" th:value="${minprice}">　
 		<input type="number" name="maxprice" placeholder="最高金額" min="0" th:value="${maxprice}">　
 		<button>検索</button>
@@ -38,8 +40,18 @@
 				<td th:if="${item.shopId == shop.id}" th:text="${shop.name}"></td>
 			</th:block>
 			<td th:text="${item.price}"></td>
+			<form action="/cart/add" method="post">
+				<td>
+					<input type="number" name="quantity" value="1" min="1" th:max="${item.stockCount}">
+				</td>
+				<td>
+					<input type="hidden" name="id" th:value="${item.id}">
+					<button>追加</button>
+				</td>
+			</form>
 		</tr>
 	</table>
+	<a href="/cart">カートへ</a>
 </body>
 
 </html>

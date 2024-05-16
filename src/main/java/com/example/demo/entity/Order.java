@@ -19,6 +19,9 @@ public class Order {
 	@Column(name = "customer_id")
 	private Integer customerId;
 
+	@Column(name = "contact_id")
+	private Integer contactId;
+
 	@Column(name = "ordered_on")
 	private LocalDate orderedOn;
 
@@ -28,9 +31,10 @@ public class Order {
 	public Order() {
 	}
 
-	public Order(Integer customerId, LocalDate orderedOn, Integer totalPrice) {
+	public Order(Integer customerId, Integer contactId, Integer totalPrice) {
 		this.customerId = customerId;
-		this.orderedOn = orderedOn;
+		this.contactId = contactId;
+		this.orderedOn = LocalDate.now();
 		this.totalPrice = totalPrice;
 	}
 
@@ -48,6 +52,10 @@ public class Order {
 
 	public Integer getTotalPrice() {
 		return totalPrice;
+	}
+
+	public Integer getContactId() {
+		return contactId;
 	}
 
 }

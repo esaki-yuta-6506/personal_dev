@@ -8,10 +8,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.entity.Item;
 import com.example.demo.entity.Review;
+import com.example.demo.model.Account;
 import com.example.demo.repository.CategoryRepository;
 import com.example.demo.repository.ItemRepository;
 import com.example.demo.repository.ReviewRepository;
@@ -21,6 +23,9 @@ import com.example.demo.repository.ShopRepository;
 public class ItemController {
 
 	@Autowired
+	Account account;
+	
+	@Autowired
 	ItemRepository itemRepository;
 
 	@Autowired
@@ -28,7 +33,7 @@ public class ItemController {
 
 	@Autowired
 	CategoryRepository categoryRepository;
-	
+
 	@Autowired
 	ReviewRepository reviewRepository;
 
@@ -51,24 +56,24 @@ public class ItemController {
 		}
 
 		String url = "";
-		
-		for(Item item : items) {
+
+		for (Item item : items) {
 			item.setUrl();
 		}
-		
-		if(keyword != null) {
+
+		if (keyword != null) {
 			url += "&keyword=" + keyword;
 		}
-		if(minprice != null) {
+		if (minprice != null) {
 			url += "&minprice=" + minprice;
 		}
-		if(maxprice != null) {
+		if (maxprice != null) {
 			url += "&minprice=" + maxprice;
 		}
-		
-		if(items.size() == 0)
+
+		if (items.size() == 0)
 			msg = "条件に当てはまる商品はありませんでした";
-		
+
 		model.addAttribute("msg", msg);
 		model.addAttribute("categoryId", categoryId);
 		model.addAttribute("keyword", keyword);
@@ -81,19 +86,131 @@ public class ItemController {
 
 		return "items";
 	}
-	
+
 	@GetMapping("/items/{id}")
 	public String view(
-			@PathVariable("id")Integer id,
+			@PathVariable("id") Integer id,
 			Model model) {
-		
+
 		Item item = itemRepository.findOneById(id);
 		List<Review> reviews = reviewRepository.findByItemId(id);
-		
+
 		model.addAttribute("item", item);
 		model.addAttribute("reviews", reviews);
-		
+
 		return "itemDetail";
+	}
+
+	@GetMapping("/items/{id}/review")
+	public String review(
+			@PathVariable("id") Integer id,
+			Model model) {
+
+		Item item = itemRepository.findOneById(id);
+		model.addAttribute("item", item);
+		return "review";
+	}
+
+	@PostMapping("/items/{id}/review")
+	public String add(
+			@PathVariable("id") Integer id,
+			@RequestParam(name = "title", defaultValue = "") String title,
+			@RequestParam(name = "reviewText", defaultValue = "") String reviewText,
+			@RequestParam(name = "score", defaultValue = "") Integer score,
+			Model model) {
+
+		String msg = "";
+
+		Item item = itemRepository.findOneById(id);
+		model.addAttribute("item", item);
+
+		model.addAttribute("title", title);
+		model.addAttribute("reviewText", reviewText);
+		model.addAttribute("score", score);
+
+		if (title.length() == 0 || reviewText.length() == 0 || score == null) {
+			if (title.length() == 0)
+				msg += "<p>タイトルが未入力です</p>";
+			if (reviewText.length() == 0)
+				msg += "<p>本文が未入力です</p>";
+			if (score == null)
+				msg += "<p>評価の入力内容が不正です</p>";
+
+			model.addAttribute("msg", msg);
+			return "review";
+		}
+
+		Review review = new Review(id, account.getId(), title, reviewText, score);
+		reviewRepository.save(review);
+		return "redirect:/items/" + id;
+	}
+
+	@GetMapping("/items/{id}/review/{reviewId}")
+	public String set(
+			@PathVariable("id") Integer id,
+			@PathVariable("reviewId") Integer reviewId,
+			Model model) {
+
+		Item item = itemRepository.findOneById(id);
+		model.addAttribute("item", item);
+
+		Review review = reviewRepository.findOneById(reviewId);
+		model.addAttribute("review", review);
+
+		return "setReview";
+	}
+
+	@PostMapping("/items/{id}/review/{reviewId}")
+	public String send(
+			@PathVariable("id") Integer id,
+			@PathVariable("reviewId") Integer reviewId,
+			@RequestParam(name = "title", defaultValue = "") String title,
+			@RequestParam(name = "reviewText", defaultValue = "") String reviewText,
+			@RequestParam(name = "score", defaultValue = "") Integer score,
+			Model model) {
+
+		String msg = "";
+
+		Item item = itemRepository.findOneById(id);
+		model.addAttribute("item", item);
+
+		Review review = reviewRepository.findOneById(reviewId);
+
+		model.addAttribute("title", title);
+		model.addAttribute("reviewText", reviewText);
+		model.addAttribute("score", score);
+
+		if (title.length() == 0 || reviewText.length() == 0 || score == null) {
+			if (title.length() == 0)
+				msg += "<p>タイトルが未入力です</p>";
+			if (reviewText.length() == 0)
+				msg += "<p>本文が未入力です</p>";
+			if (score == null)
+				msg += "<p>評価の入力内容が不正です</p>";
+
+			model.addAttribute("msg", msg);
+			return "review";
+		}
+
+		review.setTitle(title);
+		review.setReviewText(reviewText);
+		review.setScore(score);
+
+		reviewRepository.save(review);
+		return "redirect:/items/" + id;
+	}
+
+	@GetMapping("/items/{id}/review/{reviewId}/delete")
+	public String set(
+			@PathVariable("id") Integer id,
+			@PathVariable("reviewId") Integer reviewId) {
+
+		Review review = reviewRepository.findOneById(reviewId);
+
+		if (review.getItemId() == id)
+			reviewRepository.deleteById(reviewId);
+
+		return "redirect:/items/" + id;
 	}
 
 	private List<Item> findItems(Integer categoryId, String keyword, Integer minprice, Integer maxprice) {

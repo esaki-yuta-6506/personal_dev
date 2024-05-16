@@ -75,6 +75,7 @@ CREATE TABLE orders
 (
    id SERIAL PRIMARY KEY,
    customer_id INTEGER,
+   contact_id INTEGER,
    ordered_on DATE,
    total_price INTEGER
 );

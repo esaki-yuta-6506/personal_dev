@@ -38,4 +38,6 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
     List<Item> findByPriceLessThanEqual(Integer maxPrice);
 
 	Item findOneById(Integer id);
+
+	List<Item> findByShopId(Integer id);
 }

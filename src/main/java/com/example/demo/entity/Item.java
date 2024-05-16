@@ -40,6 +40,15 @@ public class Item {
 	public Item() {
 	}
 
+	public Item(Integer categoryId, Integer shopId, String name, Integer price, Integer stockCount) {
+		this.categoryId = categoryId;
+		this.shopId = shopId;
+		this.name = name;
+		this.price = price;
+		this.stockCount = stockCount;
+		this.sellCount = 0;
+	}
+	
 	public Item(Integer categoryId, Integer shopId, String name, Integer price, Integer stockCount, Integer sellCount) {
 		this.categoryId = categoryId;
 		this.shopId = shopId;

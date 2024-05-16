@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "shops")
@@ -21,8 +22,17 @@ public class Shop {
 	private Integer customerId;
 
 	private String name;
+	
+	@Transient
+	private String url;
 
 	public Shop() {
+	}
+
+	public Shop(Integer customerId, String name) {
+		this.planId = 2;
+		this.customerId = customerId;
+		this.name = name;
 	}
 
 	public Shop(Integer planId, Integer customerId, String name) {
@@ -70,4 +80,11 @@ public class Shop {
 		this.name = name;
 	}
 
+	public String getUrl() {
+		return url;
+	}
+	
+	public void setUrl() {
+		this.url = "<a href = '/shop/"+id+"'>"+name+"</a>";
+	}
 }

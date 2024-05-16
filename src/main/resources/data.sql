@@ -38,8 +38,8 @@ INSERT INTO wallets(name) VALUES('paypoi');
 
 INSERT INTO user_wallets(customer_id, wallet_id, wallet_number, wallet_key) VALUES(5, 2, '1111000022223333', '123');
 
-INSERT INTO orders(customer_id, ordered_on, total_price) VALUES(5, '2024/4/12', 6760);
-INSERT INTO orders(customer_id, ordered_on, total_price) VALUES(6, '2024/4/13', 2500);
+INSERT INTO orders(customer_id, contact_id, ordered_on, total_price) VALUES(5, 0, '2024/4/12', 6760);
+INSERT INTO orders(customer_id, contact_id, ordered_on, total_price) VALUES(6, 0, '2024/4/13', 2500);
 
 INSERT INTO order_details(order_id, item_id, quantity) VALUES(1, 1, 2);
 INSERT INTO order_details(order_id, item_id, quantity) VALUES(1, 2, 1);

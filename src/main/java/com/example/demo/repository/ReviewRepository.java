@@ -9,5 +9,7 @@ import com.example.demo.entity.Review;
 public interface ReviewRepository extends JpaRepository<Review, Integer> {
 
 	List<Review> findByItemId(Integer itemId);
+
+	Review findOneById(Integer Id);
 	
 }
