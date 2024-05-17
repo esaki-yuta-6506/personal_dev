@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>ショップ詳細</title>
+</head>
+<body>
+<h1>[[${shop.name}]]</h1>
+<h3>商品一覧</h3>
+<table border="1">
+	<tr>
+		<th>商品ID</th>
+		<th>商品名</th>
+		<th>価格</th>
+		<th>在庫数</th>
+		<th>販売数</th>
+		<th>売上</th>
+		<th>更新</th>
+		<th>削除</th>
+	</tr>
+	<tr th:each="item : ${items}">
+		<td th:text="${item.id}"></td>
+		<td th:text="${item.name}"></td>
+		<td th:text="${item.price}"></td>
+		<td th:text="${item.stockCount}"></td>
+		<td th:text="${item.sellCount}"></td>
+		<td th:text="${item.price * item.sellCount}"></td>
+		<td>
+			<form th:action="'/shop/' + ${shop.id} + '/set/' + ${item.id}">
+				<button>更新</button>
+			</form>
+		</td>
+		<td>
+			<form th:action="'/shop/' + ${shop.id} + '/delete/' + ${item.id}">
+				<button>更新</button>
+			</form>
+		</td>
+	</tr>
+</table>
+<a th:href="'/shop/' + ${shop.id} + '/add'">商品追加</a>　
+<a href="/shop">戻る</a>
+</body>
+</html>

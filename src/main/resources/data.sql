@@ -14,9 +14,9 @@ INSERT INTO items(category_id, shop_id, name, price, stock_count, sell_count) VA
 INSERT INTO items(category_id, shop_id, name, price, stock_count, sell_count) VALUES(3, 3, 'Invader Fighter', 3400, 54, 0);
 INSERT INTO items(category_id, shop_id, name, price, stock_count, sell_count) VALUES(3, 3, 'Play the BascketBall', 2200, 45, 0);
 
-INSERT INTO modes(name) VALUES('admin');
-INSERT INTO modes(name) VALUES('shop');
-INSERT INTO modes(name) VALUES('user');
+INSERT INTO modes(name) VALUES('管理者');
+INSERT INTO modes(name) VALUES('ショップ');
+INSERT INTO modes(name) VALUES('一般');
 
 INSERT INTO customers(mode_id, name, address, tel, email, password) VALUES(1, 'admin', '', '', 'admin', 'admin');
 INSERT INTO customers(mode_id, name, address, tel, email, password) VALUES(2, '佐々木小次郎', '東京都', '090-1111-3333', 'sasaki@aaa.com', 'syoten');

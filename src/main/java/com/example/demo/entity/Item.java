@@ -35,6 +35,9 @@ public class Item {
 	private String url;
 
 	@Transient
+	private String shopUrl;
+
+	@Transient
 	private Integer quantity;
 
 	public Item() {
@@ -48,7 +51,7 @@ public class Item {
 		this.stockCount = stockCount;
 		this.sellCount = 0;
 	}
-	
+
 	public Item(Integer categoryId, Integer shopId, String name, Integer price, Integer stockCount, Integer sellCount) {
 		this.categoryId = categoryId;
 		this.shopId = shopId;
@@ -132,12 +135,22 @@ public class Item {
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
-	
+
 	public String getUrl() {
+		this.url = "<a href = '/items/" + id + "'>" + name + "</a>";
 		return url;
 	}
-	
+
 	public void setUrl() {
-		this.url = "<a href = '/items/"+id+"'>"+name+"</a>";
+		this.url = "<a href = '/items/" + id + "'>" + name + "</a>";
 	}
+
+	public String getShopUrl() {
+		return shopUrl;
+	}
+
+	public void setShopUrl(String shopUrl) {
+		this.shopUrl = "<a href = '/shop/" + shopId + "/set/" + id + "'>" + name + "</a>";
+	}
+
 }

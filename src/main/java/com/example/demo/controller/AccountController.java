@@ -25,10 +25,15 @@ public class AccountController {
 	@Autowired
 	CustomerRepository customerRepository;
 
-	@GetMapping({ "/", "/login", "/logout"})
-	public String index() {
+	@GetMapping({ "/", "/login", "/logout" })
+	public String index(
+			@RequestParam(name = "error", defaultValue = "") String error,
+			Model model) {
 		httpSession.invalidate();
 
+		if (error.equals("notLoggedIn")) {
+			model.addAttribute("msg", "ログインしてください");
+		}
 		return "login";
 	}
 
@@ -69,26 +74,26 @@ public class AccountController {
 			Model model) {
 
 		Customer customer = customerRepository.findOneByEmail(email);
-		
+
 		if (name.length() == 0 || email.length() == 0 || password.length() == 0 || rePassword.length() == 0
 				|| !password.equals(rePassword) || address.length() == 0 || tel.length() == 0 || customer != null) {
 			String msg = "";
-			
-			if(name.length() == 0)
+
+			if (name.length() == 0)
 				msg += "<p>名前を入力してください</p>";
-			if(email.length() == 0)
+			if (email.length() == 0)
 				msg += "<p>メールアドレスを入力してください</p>";
-			if(customer != null)
+			if (customer != null)
 				msg += "<p>そのメールアドレスは既に使用されています　別のメールアドレスを使用してください</p>";
-			if(password.length() == 0)
+			if (password.length() == 0)
 				msg += "<p>パスワードを入力してください</p>";
-			if(rePassword.length() == 0)
+			if (rePassword.length() == 0)
 				msg += "<p>パスワードを再入力してください</p>";
-			if(!password.equals(rePassword))
+			if (!password.equals(rePassword))
 				msg += "<p>パスワードが一致していません</p>";
-			if(address.length() == 0)
+			if (address.length() == 0)
 				msg += "<p>住所を入力してください</p>";
-			if(tel.length() == 0)
+			if (tel.length() == 0)
 				msg += "<p>電話番号を入力してください</p>";
 
 			model.addAttribute("name", name);
@@ -96,10 +101,10 @@ public class AccountController {
 			model.addAttribute("address", address);
 			model.addAttribute("tel", tel);
 			model.addAttribute("msg", msg);
-			
+
 			return "addAccount";
 		}
-		
+
 		customerRepository.save(new Customer(3, name, address, tel, email, password));
 
 		return "login";

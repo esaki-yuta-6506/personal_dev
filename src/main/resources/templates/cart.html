@@ -19,7 +19,7 @@
 		</tr>
 		<tr th:each="item:${@cart.items}">
 			<td th:text="${item.id}"></td>
-			<td th:text="${item.name}"></td>
+			<td th:utext="${item.url}"></td>
 			<td th:text="${item.price}"></td>
 			<td th:text="${item.quantity}"></td>
 			<td th:text="${item.price * item.quantity}"></td>

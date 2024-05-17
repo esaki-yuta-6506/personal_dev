@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package com.example.demo.controller.admin;
 
 import java.util.List;
 
@@ -10,14 +10,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.demo.entity.Customer;
 import com.example.demo.entity.Item;
 import com.example.demo.entity.Shop;
 import com.example.demo.model.Account;
+import com.example.demo.repository.CustomerRepository;
 import com.example.demo.repository.ItemRepository;
 import com.example.demo.repository.ShopRepository;
 
 @Controller
-public class ShopController {
+public class AdminShopController {
 
 	@Autowired
 	ShopRepository shopRepository;
@@ -28,25 +30,24 @@ public class ShopController {
 	@Autowired
 	ItemRepository itemRepository;
 
-	@GetMapping("/shop")
+	@Autowired
+	CustomerRepository customerRepository;
+
+	@GetMapping("/admin/shop")
 	public String index(
 			Model model) {
-		List<Shop> shops;
 
-		if (account.getModeId() == 1)
-			shops = shopRepository.findAll();
-		else
-			shops = shopRepository.findByCustomerId(account.getId());
+		List<Shop> shops = shopRepository.findAll();
 
 		for (Shop shop : shops)
 			shop.setUrl();
 
 		model.addAttribute("shops", shops);
 
-		return "shop";
+		return "admin/shop";
 	}
 
-	@GetMapping("/shop/{id}")
+	@GetMapping("/admin/shop/{id}")
 	public String view(
 			@PathVariable("id") Integer id,
 			Model model) {
@@ -56,18 +57,18 @@ public class ShopController {
 		List<Item> items = itemRepository.findByShopId(id);
 		model.addAttribute("items", items);
 
-		return "shopDetail";
+		return "admin/shopDetail";
 	}
 
-	@GetMapping("/shop/{id}/add")
+	@GetMapping("/admin/shop/{id}/add")
 	public String addItem(
 			@PathVariable("id") Integer id,
 			Model model) {
 		model.addAttribute("id", id);
-		return "addItem";
+		return "admin/addItem";
 	}
 
-	@PostMapping("/shop/{id}/add")
+	@PostMapping("/admin/shop/{id}/add")
 	public String storeItem(
 			@PathVariable("id") Integer id,
 			@RequestParam(name = "name", defaultValue = "") String name,
@@ -96,16 +97,16 @@ public class ShopController {
 
 			model.addAttribute("mas", msg);
 
-			return "addItem";
+			return "admin/addItem";
 		}
 
 		Item item = new Item(categoryId, id, name, price, stockCount);
 		itemRepository.save(item);
 
-		return "redirect:/shop/" + id;
+		return "redirect:/admin/shop/" + id;
 	}
 
-	@GetMapping("/shop/{id}/set/{itemId}")
+	@GetMapping("/admin/shop/{id}/set/{itemId}")
 	public String setItem(
 			@PathVariable("id") Integer id,
 			@PathVariable("itemId") Integer itemId,
@@ -113,10 +114,10 @@ public class ShopController {
 		model.addAttribute("id", id);
 		Item item = itemRepository.findOneById(itemId);
 		model.addAttribute("item", item);
-		return "setItem";
+		return "admin/setItem";
 	}
 
-	@PostMapping("/shop/{id}/set/{itemId}")
+	@PostMapping("/admin/shop/{id}/set/{itemId}")
 	public String sendItem(
 			@PathVariable("id") Integer id,
 			@PathVariable("itemId") Integer itemId,
@@ -147,36 +148,43 @@ public class ShopController {
 
 			model.addAttribute("mas", msg);
 
-			return "setItem";
+			return "admin/setItem";
 		}
 
 		Item item = itemRepository.findOneById(itemId);
 		item = new Item(itemId, categoryId, id, name, price, stockCount, item.getSellCount());
 		itemRepository.save(item);
 
-		return "redirect:/shop/" + id;
+		return "redirect:/admin/shop/" + id;
 	}
 
-	@GetMapping("/shop/{id}/delete/{itemId}")
+	@GetMapping("/admin/shop/{id}/delete/{itemId}")
 	public String deleteItem(
 			@PathVariable("id") Integer id,
 			@PathVariable("itemId") Integer itemId) {
 		itemRepository.deleteById(itemId);
 
-		return "redirect:/shop/" + id;
+		return "redirect:/admin/shop/" + id;
 	}
 
-	@GetMapping("/shop/add")
-	public String add() {
-		return "addShop";
+	@GetMapping("/admin/shop/add")
+	public String add(Model model) {
+
+		List<Customer> customers = customerRepository.findAll();
+		model.addAttribute("customers", customers);
+
+		return "admin/addShop";
 	}
 
-	@PostMapping("/shop/add")
+	@PostMapping("/admin/shop/add")
 	public String store(
+			@RequestParam(name = "customerId", defaultValue = "") Integer customerId,
+			@RequestParam(name = "planId", defaultValue = "2") Integer planId,
 			@RequestParam(name = "name", defaultValue = "") String name,
 			Model model) {
 
 		if (name.length() == 0) {
+			model.addAttribute("customerId", customerId);
 			model.addAttribute("name", name);
 
 			String msg = "";
@@ -186,34 +194,48 @@ public class ShopController {
 
 			model.addAttribute("mas", msg);
 
-			return "addShop";
+			return "admin/addShop";
 		}
 
-		Shop shop = new Shop(account.getId(), name);
+		Shop shop = new Shop(customerId, planId, name);
 		shopRepository.save(shop);
 
-		return "redirect:/shop/";
+		return "redirect:/admin/shop/";
 	}
 
-	@GetMapping("/shop/set/{id}")
+	@GetMapping("/admin/shop/set/{id}")
 	public String set(
 			@PathVariable("id") Integer id,
 			Model model) {
+
+		List<Customer> customers = customerRepository.findAll();
+		model.addAttribute("customers", customers);
+
 		model.addAttribute("id", id);
 		Shop shop = shopRepository.findOneById(id);
 		model.addAttribute("shop", shop);
-		return "setShop";
+
+		model.addAttribute("customerId", shop.getCustomerId());
+		model.addAttribute("palnId", shop.getPlanId());
+		model.addAttribute("name", shop.getName());
+		return "admin/setShop";
 	}
 
-	@PostMapping("/shop/set/{id}")
+	@PostMapping("/admin/shop/set/{id}")
 	public String send(
 			@PathVariable("id") Integer id,
+			@RequestParam(name = "customerId", defaultValue = "") Integer customerId,
 			@RequestParam(name = "name", defaultValue = "") String name,
 			@RequestParam(name = "planId", defaultValue = "") Integer planId,
 			Model model) {
 
 		if (name.length() == 0) {
+			List<Customer> customers = customerRepository.findAll();
+			model.addAttribute("customers", customers);
+
 			model.addAttribute("id", id);
+			model.addAttribute("customerId", customerId);
+			model.addAttribute("palnId", planId);
 			model.addAttribute("name", name);
 
 			String msg = "";
@@ -223,20 +245,28 @@ public class ShopController {
 
 			model.addAttribute("mas", msg);
 
-			return "setShop";
+			return "admin/setShop";
 		}
 		Shop shop = shopRepository.findOneById(id);
 		shop = new Shop(id, planId, account.getId(), name);
 		shopRepository.save(shop);
 
-		return "redirect:/shop/" + id;
+		return "redirect:/admin/shop/" + id;
 	}
 
-	@GetMapping("/shop/delete/{id}")
+	@GetMapping("/admin/shop/delete/{id}")
 	public String delete(
 			@PathVariable("id") Integer id) {
+
+		List<Item> items = itemRepository.findByShopId(id);
+
+		for (Item item : items) {
+			item.setStockCount(0);
+			itemRepository.save(item);
+		}
+
 		shopRepository.deleteById(id);
 
-		return "redirect:/shop/" + id;
+		return "redirect:/admin/shop/" + id;
 	}
 }

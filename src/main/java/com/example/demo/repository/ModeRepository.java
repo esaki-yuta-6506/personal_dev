@@ -6,4 +6,6 @@ import com.example.demo.entity.Mode;
 
 public interface ModeRepository extends JpaRepository<Mode, Integer>{
 
+	Mode findOneById(Integer id);
+
 }
