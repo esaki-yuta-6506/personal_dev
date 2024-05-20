@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>レビュー編集</title>
+</head>
+<body>
+<header th:replace="defaultHeader"></header>
+	<a th:href="'/items/' + ${item.id}">戻る</a><br>
+	<h1>レビュー編集</h1>
+	<span th:utext="${msg}" style="color: red;"></span>
+	<form th:action="'/items/' + ${item.id} + '/review/' + ${review.id}" method="post">
+		<table border="1">
+			<tr>
+				<th>商品名</th>
+				<td th:text="${item.name}"></td>
+			</tr>
+			<tr>
+				<th>評価</th>
+				<td>
+					<input type="number" name="score" max="5" min="1" th:value="${score}">
+					</td>
+			</tr>
+			<tr>
+				<th>タイトル</th>
+				<td><input type="text" name="title" th:value="${title}"></td>
+			</tr>
+			<tr>
+				<th>本文</th>
+				<td><textarea name="reviewText" th:text="${reviewText}"></textarea></td>
+			</tr>
+		</table>
+		<button>投稿</button>
+	</form>
+</body>
+</html>

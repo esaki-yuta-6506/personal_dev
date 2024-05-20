@@ -28,18 +28,18 @@
 		<td th:text="${item.sellCount}"></td>
 		<td th:text="${item.price * item.sellCount}"></td>
 		<td>
-			<form th:action="'/shop/' + ${shop.id} + '/set/' + ${item.id}">
+			<form th:action="'/admin/shop/' + ${shop.id} + '/set/' + ${item.id}">
 				<button>更新</button>
 			</form>
 		</td>
 		<td>
-			<form th:action="'/shop/' + ${shop.id} + '/delete/' + ${item.id}">
+			<form th:action="'/admin/shop/' + ${shop.id} + '/delete/' + ${item.id}">
 				<button>削除</button>
 			</form>
 		</td>
 	</tr>
 </table>
-<a th:href="'/shop/' + ${shop.id} + '/add'">商品追加</a>　
-<a href="/shop">戻る</a>
+<a th:href="'/admin/shop/' + ${shop.id} + '/add'">商品追加</a>　
+<a href="/admin/shop">戻る</a>
 </body>
 </html>

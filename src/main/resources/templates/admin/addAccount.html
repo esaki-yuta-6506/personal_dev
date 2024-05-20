@@ -3,14 +3,23 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>アカウント登録</title>
+	<title>アカウント追加</title>
 </head>
 
 <body>
-	<h1>アカウント登録</h1>
-	<span style="color: red;" th:utext="${msg}"></span>
-	<form action="/login/add" method="post">
+<a href="/admin/account">戻る</a><br>
+	<h1>アカウント追加</h1>
+	<form action="/admin/account/add" method="post">
 		<table border="1">
+			<tr>
+				<th>モード</th>
+				<td>
+					<select name="modeId">
+						<option th:each="mode:${modes}" th:value="${mode.id}" th:text="${mode.name}"
+							th:selected="${modeId == mode.id}"></option>
+					</select>
+				</td>
+			</tr>
 			<tr>
 				<th>名前</th>
 				<td><input type="text" name="name" th:value="${name}" placeholder="Name"></td>
@@ -21,11 +30,11 @@
 			</tr>
 			<tr>
 				<th>パスワード</th>
-				<td><input type="password" name="password" placeholder="Password"></td>
+				<td><input type="text" name="password" th:value="${password}" placeholder="Password"></td>
 			</tr>
 			<tr>
 				<th>パスワード(※もう一度入力してください)</th>
-				<td><input type="password" name="rePassword" placeholder="Password"></td>
+				<td><input type="text" name="rePassword" placeholder="Password"></td>
 			</tr>
 			<tr>
 				<th>住所</th>
@@ -37,8 +46,7 @@
 			</tr>
 		</table><br>
 		<button>登録</button>
-	</form><br>
-	<button onclick="location.href='/login'">戻る</button>
+	</form>
 </body>
 
 </html>

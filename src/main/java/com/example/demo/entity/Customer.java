@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "customers")
@@ -26,6 +27,9 @@ public class Customer {
 	private String email;
 
 	private String password;
+	
+	@Transient
+	private String url;
 
 	public Customer() {
 	}
@@ -106,5 +110,8 @@ public class Customer {
 		this.email = email;
 	}
 
-	
+	public String getUrl() {
+		this.url = "<a href = '/admin/account/" + id + "'>" + name + "</a>";
+		return url;
+	}
 }

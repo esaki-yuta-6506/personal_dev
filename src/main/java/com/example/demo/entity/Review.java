@@ -23,7 +23,7 @@ public class Review {
 	private Integer customerId;
 
 	@Column(name = "reviewed_on")
-	private LocalDate reviewedOn;;
+	private LocalDate reviewedOn;
 
 	private String title;
 

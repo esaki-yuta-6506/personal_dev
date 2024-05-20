@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>アカウント管理メニュー</title>
+</head>
+<body>
+<a href="/admin">戻る</a><br>
+	<h1>管理者メニュー</h1>
+	<p th:text="${msg}" style="color: red;">
+	<h3>アカウント一覧</h3>
+	<table border="1">
+		<tr>
+			<th>ID</th>
+			<th>名前</th>
+			<th>モード</th>
+			<th>更新</th>
+			<th>削除</th>
+		</tr>
+		<tr th:each="customer:${customers}">
+			<td th:text="${customer.id}"></td>
+			<td th:utext="${customer.url}"></td>
+			<td th:each="mode:${modes}" th:if="${mode.id == customer.modeId}" th:text="${mode.name}"></td>
+			<td>
+				<form th:action="'/admin/account/set/' + ${customer.id}" method="get">
+					<button>更新</button>
+				</form>
+			</td>
+			<td>
+				<form th:action="'/admin/account/delete/' + ${customer.id}" method="get">
+					<button>削除</button>
+				</form>
+			</td>
+		</tr>
+	</table>
+	<a href="/admin/account/add">アカウント追加</a>
+</body>
+</html>

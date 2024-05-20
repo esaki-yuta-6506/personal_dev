@@ -2,18 +2,19 @@ package com.example.demo.controller.admin;
 
 import java.util.List;
 
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Customer;
+import com.example.demo.entity.Mode;
+import com.example.demo.model.Account;
 import com.example.demo.repository.CustomerRepository;
 import com.example.demo.repository.ItemRepository;
 import com.example.demo.repository.ModeRepository;
@@ -25,6 +26,9 @@ import com.example.demo.repository.ShopRepository;
 
 @Controller
 public class AdminAccountController {
+
+	@Autowired
+	Account account;
 
 	@Autowired
 	CustomerRepository customerRepository;
@@ -45,26 +49,47 @@ public class AdminAccountController {
 	OrderDetailRepository orderDetailRepository;
 
 	@Autowired
-	ModeRepository moderepository;
+	ModeRepository modeRepository;
 
 	@Autowired
 	PlanRepository planRepository;
 
 	@GetMapping("/admin")
 	public String index() {
-		return "admin";
+		return "admin/admin";
 	}
 
 	@GetMapping("/admin/account")
-	public String view(Model model) {
+	public String view(
+			@ModelAttribute(name = "msg") String msg,
+			Model model) {
+		model.addAttribute("msg", msg);
+		
 		List<Customer> customers = customerRepository.findAll();
 		model.addAttribute("customers", customers);
+		List<Mode> modes = modeRepository.findAll();
+		model.addAttribute("modes", modes);
 
-		return "adminAccount";
+		return "admin/adminAccount";
+	}
+
+	@GetMapping("/admin/account/{id}")
+	public String viewAccount(
+			@PathVariable("id") Integer id,
+			Model model) {
+		Customer customer = customerRepository.findOneById(id);
+		model.addAttribute("customer", customer);
+		List<Mode> modes = modeRepository.findAll();
+		model.addAttribute("modes", modes);
+
+		return "admin/adminAccountDetail";
 	}
 
 	@GetMapping("/admin/account/add")
-	public String addAccount() {
+	public String addAccount(Model model) {
+		List<Mode> modes = modeRepository.findAll();
+		model.addAttribute("modes", modes);
+
 		return "admin/addAccount";
 	}
 
@@ -78,6 +103,8 @@ public class AdminAccountController {
 			@RequestParam(name = "password", defaultValue = "") String password,
 			@RequestParam(name = "rePassword", defaultValue = "") String rePassword,
 			Model model) {
+		List<Mode> modes = modeRepository.findAll();
+		model.addAttribute("modes", modes);
 
 		Customer customer = customerRepository.findOneByEmail(email);
 
@@ -121,6 +148,8 @@ public class AdminAccountController {
 	public String setAccount(
 			@PathVariable("id") Integer id,
 			Model model) {
+		List<Mode> modes = modeRepository.findAll();
+		model.addAttribute("modes", modes);
 
 		Customer customer = customerRepository.findOneById(id);
 		model.addAttribute("customer", customer);
@@ -146,6 +175,8 @@ public class AdminAccountController {
 			@RequestParam(name = "password", defaultValue = "") String password,
 			@RequestParam(name = "rePassword", defaultValue = "") String rePassword,
 			Model model) {
+		List<Mode> modes = modeRepository.findAll();
+		model.addAttribute("modes", modes);
 
 		Customer customer = customerRepository.findOneById(id);
 		Customer eCustomer = null;
@@ -180,15 +211,21 @@ public class AdminAccountController {
 
 			model.addAttribute("customer", customer);
 
-			model.addAttribute("modeId", customer.getModeId());
-			model.addAttribute("name", customer.getName());
-			model.addAttribute("email", customer.getEmail());
-			model.addAttribute("address", customer.getAddress());
-			model.addAttribute("tel", customer.getTel());
-			model.addAttribute("password", customer.getPassword());
+			model.addAttribute("modeId", modeId);
+			model.addAttribute("name", name);
+			model.addAttribute("email", email);
+			model.addAttribute("address", address);
+			model.addAttribute("tel", tel);
+			model.addAttribute("password", password);
 			model.addAttribute("msg", msg);
 
 			return "admin/setAccount";
+		}
+
+		if (account.getId() == id) {
+			account.setId(id);
+			account.setModeId(modeId);
+			account.setName(name);
 		}
 
 		customer = new Customer(id, modeId, name, address, tel, email, password);
@@ -199,19 +236,23 @@ public class AdminAccountController {
 
 	@GetMapping("/admin/account/delete/{id}")
 	public String deleteaccount(
-			@PathVariable("id") Integer id) {
+			@PathVariable("id") Integer id,
+			RedirectAttributes redirectAttributes) {
 
-		JFrame frame = new JFrame();
 		Customer customer = customerRepository.findOneById(id);
 		List<Customer> customers = customerRepository.findByModeId(1);
 
 		if (customer.getId() == 1 && customers.size() == 1) {
-			JOptionPane.showMessageDialog(frame,
-					"管理者アカウントがなくなります"
-							+ "\n先に管理者アカウントを新たに作成するか"
-							+ "\nこのアカウントの削除をお辞めください");
+			String msg = "管理者アカウントがなくなります\r\n先に管理者アカウントを新たに作成するか\r\nこのアカウントの削除をお辞めください";
+
+			redirectAttributes.addFlashAttribute("msg", msg);
 		} else {
 			customerRepository.deleteById(id);
+			if (account.getId() == id) {
+				account.setId(null);
+				account.setModeId(null);
+				account.setName(null);
+			}
 		}
 		return "redirect:/admin/account";
 	}

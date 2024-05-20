@@ -7,7 +7,7 @@
 </head>
 
 <body>
-	<a href="/items">戻る</a><br>
+	<a href="/admin">戻る</a><br>
 	<h1>ショップ管理メニュー</h1>
 	<table border="1">
 		<tr>
@@ -17,21 +17,21 @@
 			<th>削除</th>
 		</tr>
 		<tr th:each="shop:${shops}">
-			<td th:utext="${shop.url}"></td>
+			<td th:utext="${shop.superUrl}"></td>
 			<td th:each="plan:${plans}" th:if="${plan.id == shop.planId}" th:text="${plan.name}"></td>
 			<td>
-				<form th:action="'/shop/set/' + ${shop.id}" method="get">
+				<form th:action="'/admin/shop/set/' + ${shop.id}" method="get">
 					<button>更新</button>
 				</form>
 			</td>
 			<td>
-				<form th:action="'/shop/delete/' + ${shop.id}" method="get">
+				<form th:action="'/admin/shop/delete/' + ${shop.id}" method="get">
 					<button>削除</button>
 				</form>
 			</td>
 		</tr>
 	</table>
-	<button onclick="location.href='/shop/add'">ショップを追加する</button>
+	<button onclick="location.href='/admin/shop/add'">ショップを追加する</button>
 </body>
 
 </html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>ショップ更新</title>
+</head>
+
+<body>
+	<a href="/admin/shop">戻る</a><br>
+	<h1>ショップ更新</h1>
+	<form th:action="'/admin/shop/set/' + ${id}" method="post">
+		<table border="1">
+			<tr>
+				<th>所持ユーザー</th>
+				<td>
+					<select name="customerId">
+						<option  th:each="customer:${customers}" th:value="${customer.id}" th:text="${customer.name}" th:if="${customer.modeId < 3}"></option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th>プラン</th>
+				<td>
+					<select name="planId">
+						<option th:each="plan:${plans}" th:value="${plan.id}" th:text="${plan.name}"></option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th>ショップ名</th>
+				<td><input type="text" name="name" th:value="${name}"></td>
+			</tr>
+		</table>
+		<button>更新</button>
+	</form>
+</body>
+
+</html>

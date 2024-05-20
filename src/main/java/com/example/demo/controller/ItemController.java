@@ -96,7 +96,9 @@ public class ItemController {
 		List<Review> reviews = reviewRepository.findByItemId(id);
 
 		model.addAttribute("item", item);
+		model.addAttribute("categories", categoryRepository.findAll());
 		model.addAttribute("reviews", reviews);
+		model.addAttribute("shops", shopRepository.findAll());
 
 		return "itemDetail";
 	}
@@ -156,6 +158,10 @@ public class ItemController {
 
 		Review review = reviewRepository.findOneById(reviewId);
 		model.addAttribute("review", review);
+		
+		model.addAttribute("title", review.getTitle());
+		model.addAttribute("reviewText", review.getReviewText());
+		model.addAttribute("score", review.getScore());
 
 		return "setReview";
 	}
@@ -175,6 +181,7 @@ public class ItemController {
 		model.addAttribute("item", item);
 
 		Review review = reviewRepository.findOneById(reviewId);
+		model.addAttribute("review", review);
 
 		model.addAttribute("title", title);
 		model.addAttribute("reviewText", reviewText);

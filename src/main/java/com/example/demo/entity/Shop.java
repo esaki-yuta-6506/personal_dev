@@ -84,6 +84,10 @@ public class Shop {
 		return url;
 	}
 	
+	public String getSuperUrl() {
+		return "<a href = '/admin/shop/"+id+"'>"+name+"</a>";
+	}
+	
 	public void setUrl() {
 		this.url = "<a href = '/shop/"+id+"'>"+name+"</a>";
 	}

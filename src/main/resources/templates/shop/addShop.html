@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>ショップ追加</title>
+</head>
+
+<body>
+	<a href="/shop">戻る</a><br>
+	<h1>ショップ追加</h1>
+	<span th:utext="${msg}"></span>
+	<form action="/shop/add" method="post">
+		<table border="1">
+			<tr>
+				<th>プラン</th>
+				<td th:each="plan:${plans}" th:if="${plan.id == 2}" th:text="${plan.name}"></td>
+			</tr>
+			<tr>
+				<th>ショップ名</th>
+				<td><input type="text" name="name" th:value="${name}"></td>
+			</tr>
+		</table>
+		<button>作成</button>
+	</form>
+</body>
+
+</html>
