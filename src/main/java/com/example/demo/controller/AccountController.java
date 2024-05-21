@@ -32,7 +32,7 @@ public class AccountController {
 		httpSession.invalidate();
 
 		if (error.equals("notLoggedIn")) {
-			model.addAttribute("msg", "ログインしてください");
+			//model.addAttribute("msg", "ログインしてください");
 		}
 		return "login";
 	}
@@ -80,21 +80,21 @@ public class AccountController {
 			String msg = "";
 
 			if (name.length() == 0)
-				msg += "<p>名前を入力してください</p>";
+				msg += "<p class = 'msg'>名前を入力してください</p>";
 			if (email.length() == 0)
-				msg += "<p>メールアドレスを入力してください</p>";
+				msg += "<p class = 'msg'>メールアドレスを入力してください</p>";
 			if (customer != null)
-				msg += "<p>そのメールアドレスは既に使用されています　別のメールアドレスを使用してください</p>";
+				msg += "<p class = 'msg'>そのメールアドレスは既に使用されています　別のメールアドレスを使用してください</p>";
 			if (password.length() == 0)
-				msg += "<p>パスワードを入力してください</p>";
+				msg += "<p class = 'msg'>パスワードを入力してください</p>";
 			if (rePassword.length() == 0)
-				msg += "<p>パスワードを再入力してください</p>";
+				msg += "<p class = 'msg'>パスワードを再入力してください</p>";
 			if (!password.equals(rePassword))
-				msg += "<p>パスワードが一致していません</p>";
+				msg += "<p class = 'msg'>パスワードが一致していません</p>";
 			if (address.length() == 0)
-				msg += "<p>住所を入力してください</p>";
+				msg += "<p class = 'msg'>住所を入力してください</p>";
 			if (tel.length() == 0)
-				msg += "<p>電話番号を入力してください</p>";
+				msg += "<p class = 'msg'>電話番号を入力してください</p>";
 
 			model.addAttribute("name", name);
 			model.addAttribute("email", email);

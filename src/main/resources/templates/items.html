@@ -4,57 +4,73 @@
 <head>
 	<meta charset="UTF-8">
 	<title>商品一覧</title>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 </head>
 
 <body>
 	<header th:replace="defaultHeader"></header>
-	
-	
-	<h1>商品一覧</h1>
-	<p th:text="${msg}" style="color: red;"></p>
-	<a href="/shop" th:if="${@account.modeId <= 2}">ショップメニュー</a>　
-	<a href="/admin" th:if="${@account.modeId == 1}">管理者メニュー</a>
-	<form action="/items" method="get">
-		<input type="hidden" name="categoryId" th:value="${categoryId}">
-		<input type="text" name="keyword" placeholder="検索キーワード" th:value="${keyword}"><br>
-		<input type="number" name="minprice" placeholder="最低金額" min="0" th:value="${minprice}">　
-		<input type="number" name="maxprice" placeholder="最高金額" min="0" th:value="${maxprice}">　
-		<button>検索</button>
-	</form>
-	<a href="/items">全商品</a>
-	<a th:each="c:${categories}" th:href="@{/items(categoryId=${c.id})} + ${url}">
-		<span th:text="${c.name}" style="padding-left: 10px;"></span>
-	</a>
-	<table border="1">
-		<tr>
-			<th>ID</th>
-			<th>商品名</th>
-			<th>カテゴリー</th>
-			<th>ショップ</th>
-			<th>価格(税込)</th>
-		</tr>
-		<tr th:each="item : ${items}" th:if="${item.stockCount > 0}">
-			<td th:text="${item.id}"></td>
-			<td th:utext="${item.url}"></td>
-			<th:block th:each="category:${categories}">
-				<td th:if="${item.categoryId == category.id}" th:text="${category.name}"></td>
-			</th:block>
-			<th:block th:each="shop:${shops}">
-				<td th:if="${item.shopId == shop.id}" th:text="${shop.name}"></td>
-			</th:block>
-			<td th:text="${item.price}"></td>
-			<form action="/cart/add" method="post">
-				<td>
-					<input type="number" name="quantity" value="1" min="1" th:max="${item.stockCount}">
-				</td>
-				<td>
-					<input type="hidden" name="id" th:value="${item.id}">
-					<button>追加</button>
-				</td>
+	<main id="main" class="items">
+		<side></side>
+		<nav>
+			<h3>商品検索</h3>
+			<p th:text="${msg}" style="color: red;"></p>
+			<form action="/items" method="get">
+				<input type="hidden" name="categoryId" th:value="${categoryId}">
+				<div>
+					<input type="text" name="keyword" placeholder="検索キーワード" th:value="${keyword}"><br>
+					<input type="number" name="minprice" placeholder="最低金額" min="0" th:value="${minprice}"><br>
+					<input type="number" name="maxprice" placeholder="最高金額" min="0" th:value="${maxprice}"><br>
+				</div>
+				<button>検索</button>
 			</form>
-		</tr>
-	</table>
-	<a href="/cart">カートへ</a>
+			<h3>カテゴリ絞込</h3>
+			<case style="text-align: left; width: fit-content;">
+				<a href="/items">全商品</a><br>
+				<block th:each="c:${categories}">
+					<a th:href="@{/items(categoryId=${c.id})} + ${url}"><span th:text="${c.name}"
+							style="padding-left: 10px;"></span></a>
+					<br>
+				</block>
+			</case>
+		</nav>
+		<div>
+			<table border="1">
+				<tr>
+					<th>ID</th>
+					<th>商品名</th>
+					<th>カテゴリー</th>
+					<th>ショップ</th>
+					<th>価格(税込)</th>
+					<th></th>
+					<th></th>
+				</tr>
+				<tr th:each="item : ${items}" th:if="${item.stockCount > 0}">
+					<td th:text="${item.id}"></td>
+					<td th:utext="${item.url}"></td>
+					<th:block th:each="category:${categories}">
+						<td th:if="${item.categoryId == category.id}" th:text="${category.name}"></td>
+					</th:block>
+					<th:block th:each="shop:${shops}">
+						<td th:if="${item.shopId == shop.id}" th:text="${shop.name}"></td>
+					</th:block>
+					<td th:text="${item.price}"></td>
+					<form action="/cart/add" method="post">
+						<td>
+							<input type="number" name="quantity" value="1" min="1" th:max="${item.stockCount}">
+						</td>
+						<td>
+							<input type="hidden" name="id" th:value="${item.id}">
+							<button>追加</button>
+						</td>
+					</form>
+				</tr>
+			</table>
+		</div>
+
+		<side></side>
+	</main>
+	<footer th:replace="footer"></footer>
 </body>
 
 </html>

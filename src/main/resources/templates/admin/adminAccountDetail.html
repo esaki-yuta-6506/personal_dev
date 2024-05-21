@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>アカウント詳細</title>
+	<title>アカウント詳細</title><link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 
 <body>
@@ -45,6 +45,6 @@
 	<form th:action="'/admin/account/delete/' + ${customer.id}" method="get" style="display: inline;">
 		<button>削除</button>
 	</form>
-</body>
+<footer th:replace="footer"></footer></body>
 
 </html>

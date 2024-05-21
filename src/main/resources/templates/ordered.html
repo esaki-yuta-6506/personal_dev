@@ -2,12 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>注文完了</title>
+<title>注文完了</title><link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
 	<header th:replace="defaultHeader"></header>
 <h1>注文完了</h1>
 [[${orderNumber}]]
 <a href="/items">商品一覧へ</a>
-</body>
+<footer th:replace="footer"></footer></body>
 </html>

@@ -4,21 +4,35 @@
 <head>
 	<meta charset="UTF-8">
 	<title>サインイン</title>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 </head>
 
 <body>
-	<h1>ログイン</h1>
-	<p style="color: red;" th:text="${msg}"></p>
-	<form action="/login" method="post">
-		<p>メールアドレス:
-			<input type="text" name="email" th:value="${email}" placeholder="E-mail">
-		</p>
-		<p>パスワード:
-			<input type="password" name="password" placeholder="Password">
-		</p>
-		<button>ログイン</button>
-	</form><br>
-	<button onclick="location.href='/login/add'" >新規登録</button>
+	<header id="header">
+		<h1>Encircle Market</h1>
+	<script>
+		$(function () {
+			var height = $("#header").height();
+			$("body").css("margin-top", height + 10);
+		});
+	</script>
+	</header>
+	<main>
+		<h1>ログイン</h1>
+		<p style="color: red;" th:text="${msg}"></p>
+		<form action="/login" method="post">
+			<p>メールアドレス:
+				<input type="text" name="email" th:value="${email}" placeholder="E-mail">
+			</p>
+			<p>パスワード:
+				<input type="password" name="password" placeholder="Password">
+			</p>
+			<button>ログイン</button>
+		</form>
+		<button onclick="location.href='/login/add'">新規登録</button>
+	</main>
+	<footer th:replace="footer"></footer>
 </body>
 
 </html>

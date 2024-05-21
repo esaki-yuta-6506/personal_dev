@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>商品追加</title>
+<title>商品追加</title><link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
 	<a th:href="'/admin/shop/' + ${id}">戻る</a><br>
@@ -39,5 +39,5 @@
 		</table>
 		<button>商品追加</button>
 	</form>
-</body>
+<footer th:replace="footer"></footer></body>
 </html>

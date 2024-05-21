@@ -1,0 +1,166 @@
+@charset "UTF-8";
+
+html,
+body {
+	text-align: center;
+	margin: 0 auto;
+	min-width: 500px;
+	height: fit-content;
+}
+
+body {
+	width: 100%;
+}
+
+header,
+nav,
+footer {
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	font-family: 'MS Gothic';
+	background-color: rgb(128, 128, 128);
+	height: auto;
+	min-width: 630px;
+}
+
+header a,
+span {
+	padding-right: 5px;
+	margin-left: 0 auto;
+}
+
+header h1 {
+	font-family: 'Yu Mincho';
+	color: rgb(0, 0, 0);
+	font-size: 20pt;
+	margin: 10px auto;
+}
+
+header div {
+	display: flex;
+	justify-content: flex-end;
+}
+
+header div box {
+	margin-right: auto;
+}
+
+footer {
+	position: sticky;
+	background-color: rgb(128, 128, 128);
+	width: 100%;
+	height: fit-content;
+	min-width: 800px;
+}
+
+main{
+	overflow: auto;
+	background-color: #FFFFFF;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	min-width: fit-content;
+	justify-content: center;
+	min-width: 1020px;
+	height: fit-content;
+}
+
+.items{
+	overflow: auto;
+	background-color: #FFFFFF;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	min-width: fit-content;
+	display: flex;
+	flex-direction: row;
+	align-items: stretch;
+	justify-content: center;
+	min-width: 1020px;
+	height: fit-content;
+}
+
+main div {
+	width: fit-content;
+	height: fit-content;
+	margin: 0;
+}
+
+side{
+	width: 100%;
+	background-color: rgb(185, 185, 185);
+}
+
+nav {
+	padding: 5px;
+	min-height: fit-content;
+	background-color: rgb(97, 97, 97);
+	min-width: fit-content;
+}
+
+nav div {
+	margin: 0 auto;
+	background-color: rgb(97, 97, 97);
+}
+
+nav a {
+	color: lightgray;
+}
+
+nav button {
+	margin: 8px;
+	padding: 5px 5px;
+	background-color: rgb(128, 128, 192);
+	color: #ffffff;
+	border: none;
+	width: 50px;
+	cursor: pointer;
+}
+
+table,
+th,
+td {
+	border-collapse: collapse;
+	border: 1px solid rgb(97, 97, 97);
+}
+
+table {
+	margin: 5px;
+	min-width: 800px;
+}
+
+table th {
+	background: rgb(97, 97, 97);
+	color: #ffffff;
+}
+
+table th,td{
+	padding: 5px;
+}
+
+button {
+	margin: 8px;
+	padding: 10px 20px;
+	background-color: rgb(128, 128, 192);
+	color: #ffffff;
+	border: none;
+	width: 150px;
+	cursor: pointer;
+}
+
+.msg {
+	line-height: 10px;
+}
+
+hr {
+	border-top: 2px dashed #7b8bae;
+}
+
+button:hover {
+	background-color: rgb(128, 128, 255);
+}
