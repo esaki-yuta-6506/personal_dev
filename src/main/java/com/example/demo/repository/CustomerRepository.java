@@ -14,5 +14,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 
 	Customer findOneById(Integer id);
 
-	List<Customer> findByModeId(Integer modeId);
+	List<Customer> findByModeIdOrderById(Integer modeId);
+
+	List<Customer> findByOrderById();
 }

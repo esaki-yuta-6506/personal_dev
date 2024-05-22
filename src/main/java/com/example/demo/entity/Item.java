@@ -30,12 +30,8 @@ public class Item {
 
 	@Column(name = "sell_count")
 	private Integer sellCount;
-
-	@Transient
-	private String url;
-
-	@Transient
-	private String shopUrl;
+	
+	private Integer status;
 
 	@Transient
 	private Integer quantity;
@@ -137,20 +133,23 @@ public class Item {
 	}
 
 	public String getUrl() {
-		this.url = "<a href = '/items/" + id + "'>" + name + "</a>";
-		return url;
-	}
-
-	public void setUrl() {
-		this.url = "<a href = '/items/" + id + "'>" + name + "</a>";
+		return "<a href = '/items/" + id + "'>" + name + "</a>";
 	}
 
 	public String getShopUrl() {
-		return shopUrl;
+		return "<a href = '/shop/" + shopId + "/" + id + "'>" + name + "</a>";
 	}
 
-	public void setShopUrl(String shopUrl) {
-		this.shopUrl = "<a href = '/shop/" + shopId + "/set/" + id + "'>" + name + "</a>";
+	public String getAdminUrl() {
+		return "<a href = '/admin/shop/" + shopId + "/" + id + "'>" + name + "</a>";
 	}
 
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+	
 }

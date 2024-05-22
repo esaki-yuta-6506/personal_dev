@@ -26,7 +26,8 @@ CREATE TABLE items
    name TEXT,
    price INTEGER,
    stock_count INTEGER,
-   sell_count INTEGER
+   sell_count INTEGER,
+   status INTEGER
 );
 -- モードテーブル
 CREATE TABLE modes

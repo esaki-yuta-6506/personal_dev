@@ -8,8 +8,10 @@ import com.example.demo.entity.Shop;
 
 public interface ShopRepository extends JpaRepository<Shop, Integer> {
 
-	List<Shop> findByCustomerId(Integer customerId);
+	List<Shop> findByCustomerIdOrderById(Integer customerId);
 
 	Shop findOneById(Integer id);
+
+	List<Shop> findByOrderById();
 
 }

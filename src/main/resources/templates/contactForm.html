@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>注文</title><link rel="stylesheet" type="text/css" href="/css/style.css">
-</head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script></head>
 
 <body>
 	<header th:replace="defaultHeader"></header>
@@ -34,7 +34,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td algin="right" colspan="5" th:text="'総計：'+${@cart.totalPrice}"></td>
+			<td algin="right" colspan="6" th:text="'総計：'+${@cart.totalPrice}"></td>
 		</tr>
 	</table>
 	<hr>
@@ -62,7 +62,8 @@
 
 	<form action="/order/confirm" method="post">
 		<h3>配送先情報</h3>
-		<p>配送先：<select name="id">
+		<p style="font-size: 20px;">配送先：
+			<select name="id" style="font-size: 20px;">
 				<option value="-1">新たに配送先を作成する</option>
 				<option value="0">自宅に配送する</option>
 				<th:block th:each="contact:${contacts}">

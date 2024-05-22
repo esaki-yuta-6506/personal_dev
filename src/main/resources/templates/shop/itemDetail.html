@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>商品詳細</title>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+</head>
+
+<body>
+	<main id="main">
+		<h1>商品詳細</h1>
+		<table border="1">
+			<tr>
+				<th th:text="${item.name}" colspan="2"></th>
+			</tr>
+			<tr>
+				<th>価格</th>
+				<td th:text="${item.price}"></td>
+			</tr>
+			<tr>
+				<th>カテゴリー</th>
+				<td th:each="category:${categories}" th:if="${category.id == item.categoryId}"
+					th:text="${category.name}">
+				</td>
+			</tr>
+			<tr>
+				<th>在庫数</th>
+				<td th:text="${item.stockCount + '点'}"></td>
+			</tr>
+			<tr>
+				<th>販売数</th>
+				<td th:text="${item.sellCount + '点'}"></td>
+			</tr>
+			<tr>
+				<th>売上</th>
+				<td th:text="${item.sellCount * item.price}"></td>
+			</tr>
+			<tr>
+				<th>評価</th>
+				<td><span id="score"></span></td>
+			</tr>
+		</table>
+			<form th:action="'/shop/' + ${shop.id} + '/set/' + ${item.id}" style="display: inline;">
+				<button>更新</button>
+			</form>
+			<form th:action="'/shop/' + ${shop.id} + '/delete/' + ${item.id}" style="display: inline;">
+				<button>削除</button>
+			</form>
+		<hr>
+		<h1>レビュー</h1>
+		<th:block th:if="${#lists.size(reviews)}>0">
+			<table border="1">
+				<block th:each="review:${reviews}">
+					<tr>
+						<th align="left" style="position: relative;">
+							<span th:text="${review.title}"></span>
+							<box2 style="right: 0; position: absolute;">
+								<span th:text="${review.reviewedOn}"></span>
+							</box2>
+						</th>
+						<th>評価：[[${review.score}]]<input class="score" type="hidden" th:value="${review.score}">
+						</th>
+					</tr>
+					<tr>
+						<td th:text="${review.reviewText} " colspan="2" style="text-align:left;"></td>
+					</tr>
+				</block>
+			</table>
+		</th:block>
+		<th:block th:if="${#lists.size(reviews)}==0">
+			<h2>レビューがまだ投稿されていません</h2>
+		</th:block>
+			
+
+
+		<script th:inline="javascript">
+			Score = document.querySelector("#score");
+			var inputs = document.querySelectorAll(".score");
+			var total = 0;
+			var count = 0;
+			inputs.forEach(input => {
+				count++;
+				total += Number(input.value);
+			});
+			var ave = total / count;
+			ave = ave * 10;
+			ave = Math.round(ave);
+			ave = ave / 10;
+			if (isNaN(ave)) {
+				Score.innerHTML = "評価なし";
+			} else {
+				Score.innerHTML = ave;
+			}
+		</script>
+	</main>
+	<footer th:replace="footer"></footer>
+</body>
+
+</html>

@@ -5,9 +5,11 @@
 			<a href="/shop" th:if="${@account.modeId <= 2}" class="left">ショップメニュー</a>
 			<a href="/admin" th:if="${@account.modeId == 1}" class="left">管理者メニュー</a>
 		</box>
-		<span th:text="${@account.name}+' さん'"></span>　
+		<box2>
+		<span th:utext="${@account.url}+' さん'"></span>　
 		<a href="/cart">カートへ</a>　
 		<a href="/logout">ログアウト</a>
+		</box2>
 	</div>
 	<script>
 		$(function () {

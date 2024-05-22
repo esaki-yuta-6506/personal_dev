@@ -1,45 +1,55 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>ショップ詳細</title><link rel="stylesheet" type="text/css" href="/css/style.css">
+	<meta charset="UTF-8">
+	<title>ショップ詳細</title>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 </head>
+
 <body>
-<h1>[[${shop.name}]]</h1>
-<h3>商品一覧</h3>
-<table border="1">
-	<tr>
-		<th>商品ID</th>
-		<th>カテゴリー</th>
-		<th>商品名</th>
-		<th>価格</th>
-		<th>在庫数</th>
-		<th>販売数</th>
-		<th>売上</th>
-		<th>更新</th>
-		<th>削除</th>
-	</tr>
-	<tr th:each="item : ${items}">
-		<td th:text="${item.id}"></td>
-		<td th:each="category:${categories}" th:if="${category.id == item.categoryId}" th:text="${category.name}"></td>
-		<td th:text="${item.name}"></td>
-		<td th:text="${item.price}"></td>
-		<td th:text="${item.stockCount}"></td>
-		<td th:text="${item.sellCount}"></td>
-		<td th:text="${item.price * item.sellCount}"></td>
-		<td>
-			<form th:action="'/shop/' + ${shop.id} + '/set/' + ${item.id}">
-				<button>更新</button>
-			</form>
-		</td>
-		<td>
-			<form th:action="'/shop/' + ${shop.id} + '/delete/' + ${item.id}">
-				<button>削除</button>
-			</form>
-		</td>
-	</tr>
-</table>
-<a th:href="'/shop/' + ${shop.id} + '/add'">商品追加</a>　
-<a href="/shop">戻る</a>
-<footer th:replace="footer"></footer></body>
+	<h1>[[${shop.name}]]</h1>
+	<h3>商品一覧</h3>
+	<table border="1">
+		<tr>
+			<th>商品ID</th>
+			<th>カテゴリー</th>
+			<th>商品名</th>
+			<th>価格</th>
+			<th>在庫数</th>
+			<th>販売数</th>
+			<th>売上</th>
+			<th>状態</th>
+			<th>更新</th>
+			<th>削除</th>
+		</tr>
+		<tr th:each="item : ${items}" th:if="${item.status > 0}">
+			<td th:text="${item.id}"></td>
+			<td th:each="category:${categories}" th:if="${category.id == item.categoryId}" th:text="${category.name}">
+			</td>
+			<td th:utext="${item.shopUrl}"></td>
+			<td th:text="${item.price}"></td>
+			<td th:text="${item.stockCount}"></td>
+			<td th:text="${item.sellCount}"></td>
+			<td th:text="${item.price * item.sellCount}"></td>
+			<td th:if="${item.status == 2}">販売中</td>
+			<td th:if="${item.status == 1}">販売中止</td>
+			<td>
+				<form th:action="'/shop/' + ${shop.id} + '/set/' + ${item.id}" style="display: inline;">
+					<button>更新</button>
+				</form>
+			</td>
+			<td>
+				<form th:action="'/shop/' + ${shop.id} + '/delete/' + ${item.id}" style="display: inline;">
+					<button>削除</button>
+				</form>
+			</td>
+		</tr>
+	</table>
+	<a th:href="'/shop/' + ${shop.id} + '/add'">商品追加</a>　
+	<a href="/shop">戻る</a>
+	<footer th:replace="footer"></footer>
+</body>
+
 </html>

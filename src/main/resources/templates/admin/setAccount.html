@@ -4,11 +4,13 @@
 <head>
 	<meta charset="UTF-8">
 	<title>アカウント編集</title><link rel="stylesheet" type="text/css" href="/css/style.css">
-</head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script></head>
 
 <body>
-	<a href="/admin/account">戻る</a><br>
-	<h1>アカウント登録</h1>
+	
+	<header th:replace="admin/adminHeader"></header>
+	<main id="main">
+	<h1>アカウント更新</h1>
 	<span style="color: red;" th:utext="${msg}"></span>
 	<form th:action="'/admin/account/set/' + ${id}" method="post">
 		<table border="1">
@@ -46,7 +48,7 @@
 				<td><input type="text" name="tel" th:value="${tel}" placeholder="TEL"></td>
 			</tr>
 		</table><br>
-		<button>登録</button>
+		<button>更新</button>
 	</form>
 <footer th:replace="footer"></footer></body>
 

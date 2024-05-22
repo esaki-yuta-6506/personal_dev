@@ -11,14 +11,14 @@
 <body>
 	<header id="header">
 		<h1>Encircle Market</h1>
-	<script>
-		$(function () {
-			var height = $("#header").height();
-			$("body").css("margin-top", height + 10);
-		});
-	</script>
+		<script>
+			$(function () {
+				var height = $("#header").height();
+				$("body").css("margin-top", height + 10);
+			});
+		</script>
 	</header>
-	<main>
+	<main id="main">
 		<h1>ログイン</h1>
 		<p style="color: red;" th:text="${msg}"></p>
 		<form action="/login" method="post">

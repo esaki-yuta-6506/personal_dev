@@ -8,8 +8,12 @@ import com.example.demo.entity.Review;
 
 public interface ReviewRepository extends JpaRepository<Review, Integer> {
 
-	List<Review> findByItemId(Integer itemId);
+	List<Review> findByItemIdOrderById(Integer itemId);
 
+	List<Review> findByOrderById();
+	
+	List<Review> findByCustomerIdOrderById(Integer customerId);
+	
 	Review findOneById(Integer Id);
 	
 }

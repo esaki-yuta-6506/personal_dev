@@ -1,0 +1,22 @@
+<header id="header">
+	<h1>Encircle Market</h1>
+	<div>
+		<box>
+			<a href="/admin/account" class="left">アカウント管理</a>
+			<a href="/admin/shop" class="left">ショップ管理</a>
+		</box>
+		<box3>
+			<a href="/items" id="center">トップページ</a>
+		</box3>
+		<box2>
+			<span th:text="${@account.name}+' さん'"></span>　
+			<a href="/logout">ログアウト</a>
+		</box2>
+	</div>
+	<script>
+		$(function () {
+			var height = $("#header").height();
+			$("body").css("margin-top", height + 10);
+		});
+	</script>
+</header>

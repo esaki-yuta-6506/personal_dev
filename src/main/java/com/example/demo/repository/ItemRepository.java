@@ -7,37 +7,39 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.demo.entity.Item;
 
 public interface ItemRepository extends JpaRepository<Item, Integer> {
-	List<Item> findByCategoryId(Integer categoryId);
+	List<Item> findByCategoryIdOrderById(Integer categoryId);
     
-    List<Item> findByCategoryIdAndNameContaining(Integer categoryId, String keyword);
+    List<Item> findByCategoryIdAndNameContainingOrderById(Integer categoryId, String keyword);
     
-    List<Item> findByCategoryIdAndPriceGreaterThanEqual(Integer categoryId, Integer minPrice);
+    List<Item> findByCategoryIdAndPriceGreaterThanEqualOrderById(Integer categoryId, Integer minPrice);
     
-    List<Item> findByCategoryIdAndPriceLessThanEqual(Integer categoryId, Integer maxPrice);
+    List<Item> findByCategoryIdAndPriceLessThanEqualOrderById(Integer categoryId, Integer maxPrice);
     
-    List<Item> findByCategoryIdAndNameContainingAndPriceGreaterThanEqual(Integer categoryId, String keyword, Integer minPrice);
+    List<Item> findByCategoryIdAndNameContainingAndPriceGreaterThanEqualOrderById(Integer categoryId, String keyword, Integer minPrice);
     
-    List<Item> findByCategoryIdAndNameContainingAndPriceLessThanEqual(Integer categoryId, String keyword, Integer maxPrice);
+    List<Item> findByCategoryIdAndNameContainingAndPriceLessThanEqualOrderById(Integer categoryId, String keyword, Integer maxPrice);
     
-    List<Item> findByCategoryIdAndPriceGreaterThanEqualAndPriceLessThanEqual(Integer categoryId, Integer minPrice, Integer maxPrice);
+    List<Item> findByCategoryIdAndPriceGreaterThanEqualAndPriceLessThanEqualOrderById(Integer categoryId, Integer minPrice, Integer maxPrice);
     
-    List<Item> findByCategoryIdAndNameContainingAndPriceGreaterThanEqualAndPriceLessThanEqual(Integer categoryId, String keyword, Integer minPrice, Integer maxPrice);
+    List<Item> findByCategoryIdAndNameContainingAndPriceGreaterThanEqualAndPriceLessThanEqualOrderById(Integer categoryId, String keyword, Integer minPrice, Integer maxPrice);
 	
-	List<Item> findByNameContaining(String keyword);
+	List<Item> findByNameContainingOrderById(String keyword);
     
-    List<Item> findByNameContainingAndPriceGreaterThanEqual(String keyword, Integer minPrice);
+    List<Item> findByNameContainingAndPriceGreaterThanEqualOrderById(String keyword, Integer minPrice);
     
-    List<Item> findByNameContainingAndPriceLessThanEqual(String keyword, Integer maxPrice);
+    List<Item> findByNameContainingAndPriceLessThanEqualOrderById(String keyword, Integer maxPrice);
     
-    List<Item> findByNameContainingAndPriceGreaterThanEqualAndPriceLessThanEqual(String keyword, Integer minPrice, Integer maxPrice);
+    List<Item> findByNameContainingAndPriceGreaterThanEqualAndPriceLessThanEqualOrderById(String keyword, Integer minPrice, Integer maxPrice);
     
-    List<Item> findByPriceGreaterThanEqual(Integer minPrice);
+    List<Item> findByPriceGreaterThanEqualOrderById(Integer minPrice);
     
-    List<Item> findByPriceGreaterThanEqualAndPriceLessThanEqual(Integer minPrice, Integer maxPrice);
+    List<Item> findByPriceGreaterThanEqualAndPriceLessThanEqualOrderById(Integer minPrice, Integer maxPrice);
 
-    List<Item> findByPriceLessThanEqual(Integer maxPrice);
+    List<Item> findByPriceLessThanEqualOrderById(Integer maxPrice);
 
 	Item findOneById(Integer id);
 
-	List<Item> findByShopId(Integer id);
+	List<Item> findByShopIdOrderById(Integer id);
+
+	List<Item> findByOrderById();
 }

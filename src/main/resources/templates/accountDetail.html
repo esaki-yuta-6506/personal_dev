@@ -9,7 +9,7 @@
 </head>
 
 <body>
-	<header th:replace="admin/adminHeader"></header>
+	<header th:replace="defaultHeader"></header>
 	<main id="main">
 		<h1>アカウント詳細</h1>
 		<table border="1">
@@ -42,11 +42,11 @@
 				<td th:text="${customer.password}"></td>
 			</tr>
 		</table>
-		<form th:action="'/admin/account/set/' + ${customer.id}" method="get" style="display: inline;">
+		<form th:action="'/account/set/' + ${customer.id}" method="get" style="display: inline;">
 			<button>更新</button>
 		</form>　
-		<form th:action="'/admin/account/delete/' + ${customer.id}" method="get" style="display: inline;">
-			<button>削除</button>
+		<form th:action="'/account/delete/' + ${customer.id}" method="get" style="display: inline;">
+			<button>退会</button>
 		</form>
 		<hr>
 		<h1>配送先一覧</h1>
@@ -86,8 +86,8 @@
 					</tr>
 				</block>
 			</table>
-		<br>
-		<hr>
+			<br>
+			<hr>
 		</th:block>
 		<th:block th:if="${#lists.size(orders)}>0">
 			<h1>注文履歴</h1>
@@ -115,7 +115,7 @@
 					<th>小計</th>
 				</tr>
 				<tr th:each="orderDetail : ${orderDetails}">
-					<td th:text = "${orderDetail.orderId}">
+					<td th:text="${orderDetail.orderId}">
 					<td th:text="${orderDetail.itemId}"></td>
 					<block th:each="item : ${items}">
 						<td th:if="${orderDetail.itemId == item.id}" th:text="${item.name}"></td>

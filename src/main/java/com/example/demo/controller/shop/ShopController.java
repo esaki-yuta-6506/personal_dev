@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.demo.entity.Category;
 import com.example.demo.entity.Item;
 import com.example.demo.entity.Plan;
+import com.example.demo.entity.Review;
 import com.example.demo.entity.Shop;
 import com.example.demo.model.Account;
 import com.example.demo.repository.CategoryRepository;
 import com.example.demo.repository.ItemRepository;
 import com.example.demo.repository.PlanRepository;
+import com.example.demo.repository.ReviewRepository;
 import com.example.demo.repository.ShopRepository;
 
 @Controller
@@ -37,20 +39,20 @@ public class ShopController {
 
 	@Autowired
 	CategoryRepository categoryRepository;
-	
+
+	@Autowired
+	ReviewRepository reviewRepository;
+
 	@GetMapping("/shop")
 	public String index(
 			Model model) {
 
-		List<Plan> plans = planRepository.findAll();
+		List<Plan> plans = planRepository.findByOrderById();
 		model.addAttribute("plans", plans);
 
 		List<Shop> shops;
 
-		if (account.getModeId() == 1)
-			shops = shopRepository.findAll();
-		else
-			shops = shopRepository.findByCustomerId(account.getId());
+		shops = shopRepository.findByCustomerIdOrderById(account.getId());
 
 		for (Shop shop : shops)
 			shop.setUrl();
@@ -64,28 +66,61 @@ public class ShopController {
 	public String view(
 			@PathVariable("id") Integer id,
 			Model model) {
-		List<Category> categories = categoryRepository.findAll();
+		if (account.getId() != shopRepository.findOneById(id).getCustomerId()) {
+			return "redirect:/shop";
+		}
+
+		List<Category> categories = categoryRepository.findByOrderById();
 		model.addAttribute("categories", categories);
-		
-		List<Plan> plans = planRepository.findAll();
+
+		List<Plan> plans = planRepository.findByOrderById();
 		model.addAttribute("plans", plans);
 
 		Shop shop = shopRepository.findOneById(id);
 		model.addAttribute("shop", shop);
 
-		List<Item> items = itemRepository.findByShopId(id);
+		List<Item> items = itemRepository.findByShopIdOrderById(id);
 		model.addAttribute("items", items);
 
 		return "shop/shopDetail";
+	}
+
+	@GetMapping("/shop/{id}/{itemId}")
+	public String viewItem(
+			@PathVariable("id") Integer id,
+			@PathVariable("itemId") Integer itemId,
+			Model model) {
+		if (account.getId() != shopRepository.findOneById(id).getCustomerId()) {
+			return "redirect:/shop";
+		}
+
+		List<Category> categories = categoryRepository.findByOrderById();
+		model.addAttribute("categories", categories);
+
+		model.addAttribute("id", id);
+
+		Item item = itemRepository.findOneById(itemId);
+		List<Review> reviews = reviewRepository.findByItemIdOrderById(itemId);
+
+		model.addAttribute("item", item);
+		model.addAttribute("categories", categoryRepository.findByOrderById());
+		model.addAttribute("reviews", reviews);
+		model.addAttribute("shop", shopRepository.findOneById(id));
+
+		return "shop/itemDetail";
 	}
 
 	@GetMapping("/shop/{id}/add")
 	public String addItem(
 			@PathVariable("id") Integer id,
 			Model model) {
-		List<Category> categories = categoryRepository.findAll();
+		if (account.getId() != shopRepository.findOneById(id).getCustomerId()) {
+			return "redirect:/shop";
+		}
+
+		List<Category> categories = categoryRepository.findByOrderById();
 		model.addAttribute("categories", categories);
-		
+
 		model.addAttribute("id", id);
 		return "shop/addItem";
 	}
@@ -98,10 +133,13 @@ public class ShopController {
 			@RequestParam(name = "price", defaultValue = "") Integer price,
 			@RequestParam(name = "stockCount", defaultValue = "") Integer stockCount,
 			Model model) {
+		if (account.getId() != shopRepository.findOneById(id).getCustomerId()) {
+			return "redirect:/shop";
+		}
 
-		List<Category> categories = categoryRepository.findAll();
+		List<Category> categories = categoryRepository.findByOrderById();
 		model.addAttribute("categories", categories);
-		
+
 		if (name.length() == 0 || categoryId == null || price == null || stockCount == null) {
 			model.addAttribute("id", id);
 			model.addAttribute("name", name);
@@ -136,10 +174,13 @@ public class ShopController {
 			@PathVariable("id") Integer id,
 			@PathVariable("itemId") Integer itemId,
 			Model model) {
-		
-		List<Category> categories = categoryRepository.findAll();
+		if (account.getId() != shopRepository.findOneById(id).getCustomerId()) {
+			return "redirect:/shop";
+		}
+
+		List<Category> categories = categoryRepository.findByOrderById();
 		model.addAttribute("categories", categories);
-		
+
 		model.addAttribute("id", id);
 		Item item = itemRepository.findOneById(itemId);
 		model.addAttribute("item", item);
@@ -160,8 +201,11 @@ public class ShopController {
 			@RequestParam(name = "price", defaultValue = "") Integer price,
 			@RequestParam(name = "stockCount", defaultValue = "") Integer stockCount,
 			Model model) {
-		
-		List<Category> categories = categoryRepository.findAll();
+		if (account.getId() != shopRepository.findOneById(id).getCustomerId()) {
+			return "redirect:/shop";
+		}
+
+		List<Category> categories = categoryRepository.findByOrderById();
 		model.addAttribute("categories", categories);
 
 		if (name.length() == 0 || categoryId == null || price == null || stockCount == null) {
@@ -199,14 +243,22 @@ public class ShopController {
 	public String deleteItem(
 			@PathVariable("id") Integer id,
 			@PathVariable("itemId") Integer itemId) {
-		itemRepository.deleteById(itemId);
+		if (account.getId() != shopRepository.findOneById(id).getCustomerId()) {
+			return "redirect:/shop";
+		}
+
+		Item item = itemRepository.findOneById(itemId);
+		item.setStatus(0);
+		item.setStockCount(0);
+
+		itemRepository.save(item);
 
 		return "redirect:/shop/" + id;
 	}
 
 	@GetMapping("/shop/add")
 	public String add(Model model) {
-		List<Plan> plans = planRepository.findAll();
+		List<Plan> plans = planRepository.findByOrderById();
 		model.addAttribute("plans", plans);
 
 		return "shop/addShop";
@@ -217,7 +269,7 @@ public class ShopController {
 			@RequestParam(name = "name", defaultValue = "") String name,
 			Model model) {
 
-		List<Plan> plans = planRepository.findAll();
+		List<Plan> plans = planRepository.findByOrderById();
 		model.addAttribute("plans", plans);
 		if (name.length() == 0) {
 			model.addAttribute("name", name);
@@ -242,7 +294,11 @@ public class ShopController {
 	public String set(
 			@PathVariable("id") Integer id,
 			Model model) {
-		List<Plan> plans = planRepository.findAll();
+		if (account.getId() != shopRepository.findOneById(id).getCustomerId()) {
+			return "redirect:/shop";
+		}
+
+		List<Plan> plans = planRepository.findByOrderById();
 		model.addAttribute("plans", plans);
 		model.addAttribute("id", id);
 		Shop shop = shopRepository.findOneById(id);
@@ -260,7 +316,11 @@ public class ShopController {
 			@RequestParam(name = "name", defaultValue = "") String name,
 			@RequestParam(name = "planId", defaultValue = "") Integer planId,
 			Model model) {
-		List<Plan> plans = planRepository.findAll();
+		if (account.getId() != shopRepository.findOneById(id).getCustomerId()) {
+			return "redirect:/shop";
+		}
+
+		List<Plan> plans = planRepository.findByOrderById();
 		model.addAttribute("plans", plans);
 
 		if (name.length() == 0) {
@@ -286,10 +346,14 @@ public class ShopController {
 	@GetMapping("/shop/delete/{id}")
 	public String delete(
 			@PathVariable("id") Integer id) {
+		if (account.getId() != shopRepository.findOneById(id).getCustomerId()) {
+			return "redirect:/shop";
+		}
 
-		List<Item> items = itemRepository.findByShopId(id);
+		List<Item> items = itemRepository.findByShopIdOrderById(id);
 
 		for (Item item : items) {
+			item.setStatus(0);
 			item.setStockCount(0);
 			itemRepository.save(item);
 		}

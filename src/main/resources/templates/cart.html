@@ -3,7 +3,9 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>カート</title><link rel="stylesheet" type="text/css" href="/css/style.css">
+	<title>カート</title>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 </head>
 
 <body>
@@ -32,13 +34,14 @@
 			</td>
 		</tr>
 		<tr>
-			<td algin="right" colspan="5" th:text="'総計：'+${@cart.totalPrice}"></td>
+			<td algin="right" colspan="6" th:text="'総計：'+${@cart.totalPrice}"></td>
 		</tr>
 	</table>
 	<form action="/order">
 		<button>注文する</button>
 	</form>
 	<a href="/items">商品一覧へ</a>
-<footer th:replace="footer"></footer></body>
+	<footer th:replace="footer"></footer>
+</body>
 
 </html>

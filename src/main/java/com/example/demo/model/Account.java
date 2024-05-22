@@ -42,5 +42,9 @@ public class Account {
 	public void setModeId(Integer modeId) {
 		this.modeId = modeId;
 	}
+	
+	public String getUrl() {
+		return "<a href='/account/"+id+"'>"+name+"</a>";
+	}
 
 }

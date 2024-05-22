@@ -2,17 +2,19 @@ INSERT INTO categories(name) VALUES('本');
 INSERT INTO categories(name) VALUES('DVD');
 INSERT INTO categories(name) VALUES('ゲーム');
 
-INSERT INTO items(category_id, shop_id, name, price, stock_count, sell_count) VALUES(1, 1, 'Javaの基本', 2500, 76, 3);
-INSERT INTO items(category_id, shop_id, name, price, stock_count, sell_count) VALUES(1, 1, 'MLB Fun', 980, 43, 1);
-INSERT INTO items(category_id, shop_id, name, price, stock_count, sell_count) VALUES(1, 1, '料理BOOK!', 1200, 87, 0);
+INSERT INTO items(category_id, shop_id, name, price, stock_count, sell_count, status) VALUES(1, 1, 'Javaの基本', 2500, 76, 3, 2);
+INSERT INTO items(category_id, shop_id, name, price, stock_count, sell_count, status) VALUES(1, 1, 'MLB Fun', 980, 43, 1, 2);
+INSERT INTO items(category_id, shop_id, name, price, stock_count, sell_count, status) VALUES(1, 1, '料理BOOK!', 1200, 87, 0, 2);
 
-INSERT INTO items(category_id, shop_id, name, price, stock_count, sell_count) VALUES(2, 2, 'なつかしのアニメシリーズ', 2000, 24, 0);
-INSERT INTO items(category_id, shop_id, name, price, stock_count, sell_count) VALUES(2, 2, 'The Racer', 1000, 12, 0);
-INSERT INTO items(category_id, shop_id, name, price, stock_count, sell_count) VALUES(2, 2, 'Space Wars 3', 1800, 34, 0);
+INSERT INTO items(category_id, shop_id, name, price, stock_count, sell_count, status) VALUES(2, 2, 'なつかしのアニメシリーズ', 2000, 24, 0, 2);
+INSERT INTO items(category_id, shop_id, name, price, stock_count, sell_count, status) VALUES(2, 2, 'The Racer', 1000, 12, 0, 2);
+INSERT INTO items(category_id, shop_id, name, price, stock_count, sell_count, status) VALUES(2, 2, 'Space Wars 3', 1800, 34, 0, 2);
 
-INSERT INTO items(category_id, shop_id, name, price, stock_count, sell_count) VALUES(3, 3, 'パズルゲーム', 780, 53, 1);
-INSERT INTO items(category_id, shop_id, name, price, stock_count, sell_count) VALUES(3, 3, 'Invader Fighter', 3400, 54, 0);
-INSERT INTO items(category_id, shop_id, name, price, stock_count, sell_count) VALUES(3, 3, 'Play the BascketBall', 2200, 45, 0);
+INSERT INTO items(category_id, shop_id, name, price, stock_count, sell_count, status) VALUES(3, 3, 'パズルゲーム', 780, 53, 1, 2);
+INSERT INTO items(category_id, shop_id, name, price, stock_count, sell_count, status) VALUES(3, 3, 'Invader Fighter', 3400, 54, 0, 2);
+INSERT INTO items(category_id, shop_id, name, price, stock_count, sell_count, status) VALUES(3, 3, 'Play the BascketBall', 2200, 45, 0, 2);
+
+INSERT INTO items(category_id, shop_id, name, price, stock_count, sell_count, status) VALUES(1, 1, 'Escape From Hell', 2200, 45, 0, 1);
 
 INSERT INTO modes(name) VALUES('管理者');
 INSERT INTO modes(name) VALUES('ショップ');

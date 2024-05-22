@@ -18,11 +18,11 @@
 			});
 		</script>
 	</header>
-	<main>
+	<main id="main">
 		<h1>アカウント登録</h1>
 		<span style="color: red;" th:utext="${msg}"></span>
 		<form action="/login/add" method="post">
-			<table border="1" style="display:inline;">
+			<table style="display:inline;">
 				<tr>
 					<th>名前</th>
 					<td><input type="text" name="name" th:value="${name}" placeholder="Name"></td>

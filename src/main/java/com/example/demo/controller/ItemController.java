@@ -50,16 +50,12 @@ public class ItemController {
 
 		if (minprice != null && maxprice != null && maxprice < minprice) {
 			msg = "最高金額には最低金額よりも大きい値を入力してください";
-			items = itemRepository.findAll();
+			items = itemRepository.findByOrderById();
 		} else {
 			items = findItems(categoryId, keyword, minprice, maxprice);
 		}
 
 		String url = "";
-
-		for (Item item : items) {
-			item.setUrl();
-		}
 
 		if (keyword != null) {
 			url += "&keyword=" + keyword;
@@ -81,8 +77,8 @@ public class ItemController {
 		model.addAttribute("maxprice", maxprice);
 		model.addAttribute("items", items);
 		model.addAttribute("url", url);
-		model.addAttribute("categories", categoryRepository.findAll());
-		model.addAttribute("shops", shopRepository.findAll());
+		model.addAttribute("categories", categoryRepository.findByOrderById());
+		model.addAttribute("shops", shopRepository.findByOrderById());
 
 		return "items";
 	}
@@ -93,14 +89,15 @@ public class ItemController {
 			Model model) {
 
 		Item item = itemRepository.findOneById(id);
-		List<Review> reviews = reviewRepository.findByItemId(id);
+		List<Review> reviews = reviewRepository.findByItemIdOrderById(id);
 
 		model.addAttribute("item", item);
-		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("categories", categoryRepository.findByOrderById());
 		model.addAttribute("reviews", reviews);
-		model.addAttribute("shops", shopRepository.findAll());
+		model.addAttribute("shops", shopRepository.findByOrderById());
 
 		return "itemDetail";
+		
 	}
 
 	@GetMapping("/items/{id}/review")
@@ -227,36 +224,36 @@ public class ItemController {
 				if (minprice != null) {
 					if (maxprice != null) {
 						items = itemRepository
-								.findByCategoryIdAndNameContainingAndPriceGreaterThanEqualAndPriceLessThanEqual(
+								.findByCategoryIdAndNameContainingAndPriceGreaterThanEqualAndPriceLessThanEqualOrderById(
 										categoryId, keyword, minprice, maxprice);
 					} else {
-						items = itemRepository.findByCategoryIdAndNameContainingAndPriceGreaterThanEqual(categoryId,
+						items = itemRepository.findByCategoryIdAndNameContainingAndPriceGreaterThanEqualOrderById(categoryId,
 								keyword, minprice);
 					}
 
 				} else {
 					if (maxprice != null) {
-						items = itemRepository.findByCategoryIdAndNameContainingAndPriceLessThanEqual(categoryId,
+						items = itemRepository.findByCategoryIdAndNameContainingAndPriceLessThanEqualOrderById(categoryId,
 								keyword, maxprice);
 					} else {
-						items = itemRepository.findByCategoryIdAndNameContaining(categoryId, keyword);
+						items = itemRepository.findByCategoryIdAndNameContainingOrderById(categoryId, keyword);
 					}
 				}
 			} else {
 
 				if (minprice != null) {
 					if (maxprice != null) {
-						items = itemRepository.findByCategoryIdAndPriceGreaterThanEqualAndPriceLessThanEqual(categoryId,
+						items = itemRepository.findByCategoryIdAndPriceGreaterThanEqualAndPriceLessThanEqualOrderById(categoryId,
 								minprice, maxprice);
 					} else {
-						items = itemRepository.findByCategoryIdAndPriceGreaterThanEqual(categoryId, minprice);
+						items = itemRepository.findByCategoryIdAndPriceGreaterThanEqualOrderById(categoryId, minprice);
 					}
 
 				} else {
 					if (maxprice != null) {
-						items = itemRepository.findByCategoryIdAndPriceLessThanEqual(categoryId, maxprice);
+						items = itemRepository.findByCategoryIdAndPriceLessThanEqualOrderById(categoryId, maxprice);
 					} else {
-						items = itemRepository.findByCategoryId(categoryId);
+						items = itemRepository.findByCategoryIdOrderById(categoryId);
 					}
 				}
 			}
@@ -264,33 +261,33 @@ public class ItemController {
 			if (keyword != null) {
 				if (minprice != null) {
 					if (maxprice != null) {
-						items = itemRepository.findByNameContainingAndPriceGreaterThanEqualAndPriceLessThanEqual(
+						items = itemRepository.findByNameContainingAndPriceGreaterThanEqualAndPriceLessThanEqualOrderById(
 								keyword, minprice, maxprice);
 					} else {
-						items = itemRepository.findByNameContainingAndPriceGreaterThanEqual(keyword, minprice);
+						items = itemRepository.findByNameContainingAndPriceGreaterThanEqualOrderById(keyword, minprice);
 					}
 
 				} else {
 					if (maxprice != null) {
-						items = itemRepository.findByNameContainingAndPriceLessThanEqual(keyword, maxprice);
+						items = itemRepository.findByNameContainingAndPriceLessThanEqualOrderById(keyword, maxprice);
 					} else {
-						items = itemRepository.findByNameContaining(keyword);
+						items = itemRepository.findByNameContainingOrderById(keyword);
 					}
 				}
 			} else {
 
 				if (minprice != null) {
 					if (maxprice != null) {
-						items = itemRepository.findByPriceGreaterThanEqualAndPriceLessThanEqual(minprice, maxprice);
+						items = itemRepository.findByPriceGreaterThanEqualAndPriceLessThanEqualOrderById(minprice, maxprice);
 					} else {
-						items = itemRepository.findByPriceGreaterThanEqual(minprice);
+						items = itemRepository.findByPriceGreaterThanEqualOrderById(minprice);
 					}
 
 				} else {
 					if (maxprice != null) {
-						items = itemRepository.findByPriceLessThanEqual(maxprice);
+						items = itemRepository.findByPriceLessThanEqualOrderById(maxprice);
 					} else {
-						items = itemRepository.findAll();
+						items = itemRepository.findByOrderById();
 					}
 				}
 			}

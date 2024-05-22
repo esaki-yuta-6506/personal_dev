@@ -10,6 +10,7 @@ public interface ContactRepository extends JpaRepository<Contact, Integer> {
 
 	Contact findOneById(Integer id);
 
-	List<Contact> findByCustomerId(Integer id);
+	List<Contact> findByOrderById();
 
+	List<Contact> findByCustomerIdOrderById(Integer id);
 }

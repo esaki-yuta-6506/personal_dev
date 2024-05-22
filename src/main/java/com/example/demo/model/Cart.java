@@ -13,7 +13,9 @@ import com.example.demo.entity.Item;
 public class Cart {
 
 	private List<Item> items = new ArrayList<>();
-
+	
+	private Integer lastOrder; 
+	
 	public Cart() {
 	}
 
@@ -60,5 +62,13 @@ public class Cart {
 
 	public void clear() {
 		items = new ArrayList<>();
+	}
+
+	public Integer getLastOrder() {
+		return lastOrder;
+	}
+
+	public void setLastOrder(Integer lastOrder) {
+		this.lastOrder = lastOrder;
 	}
 }

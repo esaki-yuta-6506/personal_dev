@@ -14,12 +14,14 @@ import com.example.demo.entity.Category;
 import com.example.demo.entity.Customer;
 import com.example.demo.entity.Item;
 import com.example.demo.entity.Plan;
+import com.example.demo.entity.Review;
 import com.example.demo.entity.Shop;
 import com.example.demo.model.Account;
 import com.example.demo.repository.CategoryRepository;
 import com.example.demo.repository.CustomerRepository;
 import com.example.demo.repository.ItemRepository;
 import com.example.demo.repository.PlanRepository;
+import com.example.demo.repository.ReviewRepository;
 import com.example.demo.repository.ShopRepository;
 
 @Controller
@@ -42,14 +44,17 @@ public class AdminShopController {
 	
 	@Autowired
 	CategoryRepository categoryRepository;
+	
+	@Autowired
+	ReviewRepository reviewRepository;
 
 	@GetMapping("/admin/shop")
 	public String index(
 			Model model) {
-		List<Plan> plans = planRepository.findAll();
+		List<Plan> plans = planRepository.findByOrderById();
 		model.addAttribute("plans", plans);
 
-		List<Shop> shops = shopRepository.findAll();
+		List<Shop> shops = shopRepository.findByOrderById();
 
 		for (Shop shop : shops)
 			shop.setUrl();
@@ -63,19 +68,40 @@ public class AdminShopController {
 	public String view(
 			@PathVariable("id") Integer id,
 			Model model) {
-		List<Plan> plans = planRepository.findAll();
+		List<Plan> plans = planRepository.findByOrderById();
 		model.addAttribute("plans", plans);
 		
 		Shop shop = shopRepository.findOneById(id);
 		model.addAttribute("shop", shop);
 
-		List<Item> items = itemRepository.findByShopId(id);
+		List<Item> items = itemRepository.findByShopIdOrderById(id);
 		model.addAttribute("items", items);
 		
-		List<Category> categories = categoryRepository.findAll();
+		List<Category> categories = categoryRepository.findByOrderById();
 		model.addAttribute("categories", categories);
 
 		return "admin/shopDetail";
+	}
+
+	@GetMapping("/admin/shop/{id}/{itemId}")
+	public String viewItem(
+			@PathVariable("id") Integer id,
+			@PathVariable("itemId") Integer itemId,
+			Model model) {
+		List<Category> categories = categoryRepository.findByOrderById();
+		model.addAttribute("categories", categories);
+
+		model.addAttribute("id", id);
+
+		Item item = itemRepository.findOneById(itemId);
+		List<Review> reviews = reviewRepository.findByItemIdOrderById(itemId);
+
+		model.addAttribute("item", item);
+		model.addAttribute("categories", categoryRepository.findByOrderById());
+		model.addAttribute("reviews", reviews);
+		model.addAttribute("shop", shopRepository.findOneById(id));
+
+		return "admin/itemDetail";
 	}
 
 	@GetMapping("/admin/shop/{id}/add")
@@ -83,7 +109,7 @@ public class AdminShopController {
 			@PathVariable("id") Integer id,
 			Model model) {
 		
-		List<Category> categories = categoryRepository.findAll();
+		List<Category> categories = categoryRepository.findByOrderById();
 		model.addAttribute("categories", categories);
 		
 		model.addAttribute("id", id);
@@ -99,7 +125,7 @@ public class AdminShopController {
 			@RequestParam(name = "stockCount", defaultValue = "") Integer stockCount,
 			Model model) {
 		
-		List<Category> categories = categoryRepository.findAll();
+		List<Category> categories = categoryRepository.findByOrderById();
 		model.addAttribute("categories", categories);
 
 		if (name.length() == 0 || categoryId == null || price == null || stockCount == null) {
@@ -137,7 +163,7 @@ public class AdminShopController {
 			@PathVariable("itemId") Integer itemId,
 			Model model) {
 		
-		List<Category> categories = categoryRepository.findAll();
+		List<Category> categories = categoryRepository.findByOrderById();
 		model.addAttribute("categories", categories);
 		model.addAttribute("id", id);
 		Item item = itemRepository.findOneById(itemId);
@@ -160,7 +186,7 @@ public class AdminShopController {
 			@RequestParam(name = "stockCount", defaultValue = "") Integer stockCount,
 			Model model) {
 		
-		List<Category> categories = categoryRepository.findAll();
+		List<Category> categories = categoryRepository.findByOrderById();
 		model.addAttribute("categories", categories);
 
 		if (name.length() == 0 || categoryId == null || price == null || stockCount == null) {
@@ -198,17 +224,21 @@ public class AdminShopController {
 	public String deleteItem(
 			@PathVariable("id") Integer id,
 			@PathVariable("itemId") Integer itemId) {
-		itemRepository.deleteById(itemId);
+		Item item = itemRepository.findOneById(itemId);
+		item.setStatus(0);
+		item.setStockCount(0);
+		
+		itemRepository.save(item);
 
 		return "redirect:/admin/shop/" + id;
 	}
 
 	@GetMapping("/admin/shop/add")
 	public String add(Model model) {
-		List<Plan> plans = planRepository.findAll();
+		List<Plan> plans = planRepository.findByOrderById();
 		model.addAttribute("plans", plans);
 
-		List<Customer> customers = customerRepository.findAll();
+		List<Customer> customers = customerRepository.findByOrderById();
 		model.addAttribute("customers", customers);
 
 		return "admin/addShop";
@@ -220,7 +250,7 @@ public class AdminShopController {
 			@RequestParam(name = "planId", defaultValue = "2") Integer planId,
 			@RequestParam(name = "name", defaultValue = "") String name,
 			Model model) {
-		List<Plan> plans = planRepository.findAll();
+		List<Plan> plans = planRepository.findByOrderById();
 		model.addAttribute("plans", plans);
 
 		if (name.length() == 0) {
@@ -247,10 +277,10 @@ public class AdminShopController {
 	public String set(
 			@PathVariable("id") Integer id,
 			Model model) {
-		List<Plan> plans = planRepository.findAll();
+		List<Plan> plans = planRepository.findByOrderById();
 		model.addAttribute("plans", plans);
 
-		List<Customer> customers = customerRepository.findAll();
+		List<Customer> customers = customerRepository.findByOrderById();
 		model.addAttribute("customers", customers);
 
 		model.addAttribute("id", id);
@@ -270,11 +300,11 @@ public class AdminShopController {
 			@RequestParam(name = "name", defaultValue = "") String name,
 			@RequestParam(name = "planId", defaultValue = "") Integer planId,
 			Model model) {
-		List<Plan> plans = planRepository.findAll();
+		List<Plan> plans = planRepository.findByOrderById();
 		model.addAttribute("plans", plans);
 
 		if (name.length() == 0) {
-			List<Customer> customers = customerRepository.findAll();
+			List<Customer> customers = customerRepository.findByOrderById();
 			model.addAttribute("customers", customers);
 
 			model.addAttribute("id", id);
@@ -302,9 +332,10 @@ public class AdminShopController {
 	public String delete(
 			@PathVariable("id") Integer id) {
 
-		List<Item> items = itemRepository.findByShopId(id);
+		List<Item> items = itemRepository.findByShopIdOrderById(id);
 
 		for (Item item : items) {
+			item.setStatus(0);
 			item.setStockCount(0);
 			itemRepository.save(item);
 		}

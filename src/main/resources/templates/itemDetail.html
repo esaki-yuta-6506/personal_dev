@@ -3,83 +3,101 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>商品詳細</title><link rel="stylesheet" type="text/css" href="/css/style.css">
+	<title>商品詳細</title>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 </head>
 
 <body>
 	<header th:replace="defaultHeader"></header>
-	<a href="/items">戻る</a><br>
-	<h1>商品詳細</h1>
-	<table border="1">
-		<tr>
-			<th th:text="${item.name}" colspan="2"></th>
-		</tr>
-		<tr>
-			<th>価格</th>
-			<td th:text="${item.price}"></td>
-		</tr>
-		<tr>
-			<th>カテゴリー</th>
-			<td th:each="category:${categories}" th:if="${category.id == item.categoryId}" th:text="${category.name}">
-			</td>
-		</tr>
-		<tr>
-			<th>ショップ</th>
-			<td th:each="shop:${shops}" th:if="${shop.id == item.shopId}" th:text="${shop.name}"></td>
-		</tr>
-		<tr>
-			<th>在庫数</th>
-			<td th:text="${item.stockCount + '点'}"></td>
-		</tr>
-		<tr>
-			<th>評価</th>
-			<td><span id="score"></span></td>
-		</tr>
-	</table>
-	<hr>
-	<h3>レビュー</h3>
-	<form th:action="'/items/' + ${item.id} + '/review'" method="get">
-		<button>レビューを投稿する</button>
-	</form>
-	<table border="1">
-		<block th:each="review:${reviews}">
-			<tr>
-				<td>
-					<span th:text="${review.title}"></span>
-					<a th:href="'/items/' + ${item.id} + '/review/' + ${review.id}">編集</a>
-					<a th:href="'/items/' + ${item.id} + '/review/' + ${review.id} + '/delete'">削除</a>
-					<span th:text="${review.reviewedOn}"></span>
-				</td>
-				<td>評価：[[${review.score}]]<input class="score" type="hidden" th:value="${review.score}">
-				</td>
-			</tr>
-			<tr>
-				<td th:text="${review.reviewText}" colspan="2"></td>
-			</tr>
-		</block>
-	</table>
+	<main id="main">
+		<th:block th:if="${item.status != 0}">
+			<h1>商品詳細</h1>
+			<table border="1">
+				<tr>
+					<th th:text="${item.name}" colspan="2"></th>
+				</tr>
+				<tr>
+					<th>価格</th>
+					<td th:text="${item.price}"></td>
+				</tr>
+				<tr>
+					<th>カテゴリー</th>
+					<td th:each="category:${categories}" th:if="${category.id == item.categoryId}"
+						th:text="${category.name}">
+					</td>
+				</tr>
+				<tr>
+					<th>ショップ</th>
+					<td th:each="shop:${shops}" th:if="${shop.id == item.shopId}" th:text="${shop.name}"></td>
+				</tr>
+				<tr>
+					<th>在庫数</th>
+					<td th:text="${item.stockCount + '点'}"></td>
+				</tr>
+				<tr>
+					<th>評価</th>
+					<td><span id="score"></span></td>
+				</tr>
+			</table>
+			<hr>
+			<h1>レビュー</h1>
+			<form th:action="'/items/' + ${item.id} + '/review'" method="get">
+				<button style="width: fit-content; font-size: 15px;">レビューを投稿する</button>
+			</form>
+			<th:block th:if="${#lists.size(reviews)}>0">
+				<table border="1">
+					<block th:each="review:${reviews}">
+						<tr>
+							<th align="left" style="position: relative;">
+								<span th:text="${review.title}"></span>
+								<box2 style="right: 0; position: absolute;">
+									<a th:href="'/items/' + ${item.id} + '/review/' + ${review.id}">編集</a>
+									<a th:href="'/items/' + ${item.id} + '/review/' + ${review.id} + '/delete'">削除</a>
+									<span th:text="${review.reviewedOn}"></span>
+								</box2>
+							</th>
+							<th>評価：[[${review.score}]]<input class="score" type="hidden" th:value="${review.score}">
+							</th>
+						</tr>
+						<tr>
+							<td th:text="${review.reviewText} " colspan="2" style="text-align:left;"></td>
+						</tr>
+					</block>
+				</table>
+			</th:block>
+			<th:block th:if="${#lists.size(reviews)}==0">
+				<h2>レビューがまだ投稿されていません</h2>
+			</th:block>
 
 
-	<script th:inline="javascript">
-		Score = document.querySelector("#score");
-		var inputs = document.querySelectorAll(".score");
-		var total = 0;
-		var count = 0;
-		inputs.forEach(input => {
-			count++;
-			total += Number(input.value);
-		});
-		var ave = total / count;
-		ave = ave * 10;
-		ave = Math.round(ave);
-		ave = ave / 10;
-		if (isNaN(ave)) {
-			Score.innerHTML = "評価なし";
-		} else {
-			Score.innerHTML = ave;
-		}
-	</script>
 
-<footer th:replace="footer"></footer></body>
+			<script th:inline="javascript">
+				Score = document.querySelector("#score");
+				var inputs = document.querySelectorAll(".score");
+				var total = 0;
+				var count = 0;
+				inputs.forEach(input => {
+					count++;
+					total += Number(input.value);
+				});
+				var ave = total / count;
+				ave = ave * 10;
+				ave = Math.round(ave);
+				ave = ave / 10;
+				if (isNaN(ave)) {
+					Score.innerHTML = "評価なし";
+				} else {
+					Score.innerHTML = ave;
+				}
+			</script>
+		</th:block>
+		
+		<th:block th:if="${item.status == 0}">
+			<h1>商品は削除されました</h1>
+		</th:block>
+	</main>
+	<footer th:replace="footer"></footer>
+</body>
 
 </html>

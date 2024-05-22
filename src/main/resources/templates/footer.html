@@ -1,3 +1,10 @@
-<footer class="footer">
-	<small>&copy; ABCショップ</small>
+<footer id="footer">
+	<small>&copy; EnjoneerGroup</small>
+	<script>
+		window.addEventListener('resize', function () {
+			var elementWidth = document.getElementById('main').offsetWidth;
+			var newElementHeight = elementWidth;
+			document.getElementById('footer').style.width = newElementHeight + 'px';
+		});
+	</script>
 </footer>

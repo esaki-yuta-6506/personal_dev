@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Contact;
 import com.example.demo.entity.Customer;
@@ -45,11 +46,15 @@ public class OrderController {
 
 	@GetMapping("/order")
 	public String index(Model model) {
+		
+		if(cart.getItems().size() < 1) {
+			return "redirect:/cart";
+		}
 
 		Customer customer = customerRepository.findOneById(account.getId());
 		model.addAttribute("customer", customer);
 
-		List<Contact> contacts = contactRepository.findByCustomerId(customer.getId());
+		List<Contact> contacts = contactRepository.findByCustomerIdOrderById(customer.getId());
 		model.addAttribute("contacts", contacts);
 
 		return "contactForm";
@@ -78,8 +83,8 @@ public class OrderController {
 		case -1:
 			if (name.length() == 0 || address.length() == 0 || tel.length() == 0 || email.length() == 0) {
 				String msg = "";
-				
-				List<Contact> contacts = contactRepository.findByCustomerId(customer.getId());
+
+				List<Contact> contacts = contactRepository.findByCustomerIdOrderById(customer.getId());
 				model.addAttribute("contacts", contacts);
 
 				if (name.length() == 0)
@@ -117,7 +122,7 @@ public class OrderController {
 			@RequestParam(name = "address") String address,
 			@RequestParam(name = "tel") String tel,
 			@RequestParam(name = "email") String email,
-			Model model) {
+			RedirectAttributes redirectAttributes) {
 
 		Customer customer = customerRepository.findOneById(account.getId());
 		Contact contact = new Contact(account.getId(), name, address, tel, email);
@@ -142,8 +147,17 @@ public class OrderController {
 
 		cart.clear();
 
-		model.addAttribute("orderNumber", order.getId());
+		cart.setLastOrder(order.getId());
+
+		return "redirect:/ordered";
+	}
+
+	@GetMapping("/ordered")
+	public String doneOrder(
+			Model model) {
+		model.addAttribute("orderNumber", cart.getLastOrder());
 
 		return "ordered";
 	}
+
 }

@@ -28,12 +28,12 @@ header {
 	background-color: rgb(128, 128, 128);
 	height: auto;
 	min-width: 630px;
+	text-align: center;
 }
 
 header a,
 span {
 	padding-right: 5px;
-	margin-left: 0 auto;
 }
 
 header h1 {
@@ -44,25 +44,39 @@ header h1 {
 }
 
 header div {
-	display: flex;
-	justify-content: flex-end;
+	display: table;
+	table-layout: fixed;
+	width: 100%;
 }
 
 header div box {
-	margin-right: auto;
+	display: table-cell;
+	text-align: left;
+}
+
+header div box2 {
+	display: table-cell;
+	text-align: right;
+}
+
+header div box3 {
+	display: table-cell;
+	text-align: center;
 }
 
 footer {
-	position: sticky;
-	background-color: rgb(128, 128, 128);
+	bottom: 0;
+	left: 0;
 	width: 100%;
-	height: fit-content;
-	min-width: 800px;
+	height: max-content;
+	overflow-y: auto;
+	background-color: rgb(128, 128, 128);
 }
 
-main{
+main {
 	overflow: auto;
 	background-color: #FFFFFF;
+	padding-top: 5px;
 	margin-top: 5px;
 	margin-bottom: 5px;
 	min-width: fit-content;
@@ -71,7 +85,7 @@ main{
 	height: fit-content;
 }
 
-.items{
+.items {
 	overflow: auto;
 	background-color: #FFFFFF;
 	margin-top: 5px;
@@ -91,7 +105,7 @@ main div {
 	margin: 0;
 }
 
-side{
+side {
 	width: 100%;
 	background-color: rgb(185, 185, 185);
 }
@@ -122,16 +136,17 @@ nav button {
 	cursor: pointer;
 }
 
-table,
 th,
 td {
 	border-collapse: collapse;
-	border: 1px solid rgb(97, 97, 97);
+	border: 1px solid rgb(75, 75, 75);
 }
 
 table {
-	margin: 5px;
+	margin: auto;
 	min-width: 800px;
+	border-collapse: collapse;
+	border: 1px solid rgba(0, 0, 0, 0);
 }
 
 table th {
@@ -139,8 +154,13 @@ table th {
 	color: #ffffff;
 }
 
-table th,td{
+table th,
+td {
 	padding: 5px;
+}
+
+.left td{
+	text-align: left;
 }
 
 button {

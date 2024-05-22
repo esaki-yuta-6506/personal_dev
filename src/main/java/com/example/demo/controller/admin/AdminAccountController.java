@@ -1,5 +1,6 @@
 package com.example.demo.controller.admin;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +13,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.demo.entity.Contact;
 import com.example.demo.entity.Customer;
+import com.example.demo.entity.Item;
 import com.example.demo.entity.Mode;
+import com.example.demo.entity.Order;
+import com.example.demo.entity.OrderDetail;
+import com.example.demo.entity.Review;
+import com.example.demo.entity.Shop;
 import com.example.demo.model.Account;
+import com.example.demo.repository.ContactRepository;
 import com.example.demo.repository.CustomerRepository;
 import com.example.demo.repository.ItemRepository;
 import com.example.demo.repository.ModeRepository;
@@ -54,6 +62,9 @@ public class AdminAccountController {
 	@Autowired
 	PlanRepository planRepository;
 
+	@Autowired
+	ContactRepository contactRepository;
+
 	@GetMapping("/admin")
 	public String index() {
 		return "admin/admin";
@@ -64,10 +75,10 @@ public class AdminAccountController {
 			@ModelAttribute(name = "msg") String msg,
 			Model model) {
 		model.addAttribute("msg", msg);
-		
-		List<Customer> customers = customerRepository.findAll();
+
+		List<Customer> customers = customerRepository.findByOrderById();
 		model.addAttribute("customers", customers);
-		List<Mode> modes = modeRepository.findAll();
+		List<Mode> modes = modeRepository.findByOrderById();
 		model.addAttribute("modes", modes);
 
 		return "admin/adminAccount";
@@ -79,15 +90,35 @@ public class AdminAccountController {
 			Model model) {
 		Customer customer = customerRepository.findOneById(id);
 		model.addAttribute("customer", customer);
-		List<Mode> modes = modeRepository.findAll();
+
+		List<Contact> contacts = contactRepository.findByCustomerIdOrderById(id);
+		model.addAttribute("contacts", contacts);
+
+		List<Review> reviews = reviewRepository.findByCustomerIdOrderById(id);
+		model.addAttribute("reviews", reviews);
+
+		List<Order> orders = orderRepository.findByCustomerIdOrderById(id);
+		model.addAttribute("orders", orders);
+
+		List<OrderDetail> orderDetails = new ArrayList<OrderDetail>();
+		for (Order order : orders) {
+			orderDetails.addAll(orderDetailRepository.findByOrderId(order.getId()));
+		}
+		orderDetails.sort((od1, od2) -> od1.getId() - od2.getId());
+		model.addAttribute("orderDetails", orderDetails);
+
+		List<Mode> modes = modeRepository.findByOrderById();
 		model.addAttribute("modes", modes);
+
+		List<Item> items = itemRepository.findByOrderById();
+		model.addAttribute("items", items);
 
 		return "admin/adminAccountDetail";
 	}
 
 	@GetMapping("/admin/account/add")
 	public String addAccount(Model model) {
-		List<Mode> modes = modeRepository.findAll();
+		List<Mode> modes = modeRepository.findByOrderById();
 		model.addAttribute("modes", modes);
 
 		return "admin/addAccount";
@@ -103,7 +134,7 @@ public class AdminAccountController {
 			@RequestParam(name = "password", defaultValue = "") String password,
 			@RequestParam(name = "rePassword", defaultValue = "") String rePassword,
 			Model model) {
-		List<Mode> modes = modeRepository.findAll();
+		List<Mode> modes = modeRepository.findByOrderById();
 		model.addAttribute("modes", modes);
 
 		Customer customer = customerRepository.findOneByEmail(email);
@@ -141,6 +172,9 @@ public class AdminAccountController {
 		customer = new Customer(modeId, name, address, tel, email, password);
 		customerRepository.save(customer);
 
+		Contact contact = new Contact(customer.getId(), name, address, tel, email);
+		contactRepository.save(contact);
+
 		return "redirect:/admin/account";
 	}
 
@@ -148,7 +182,7 @@ public class AdminAccountController {
 	public String setAccount(
 			@PathVariable("id") Integer id,
 			Model model) {
-		List<Mode> modes = modeRepository.findAll();
+		List<Mode> modes = modeRepository.findByOrderById();
 		model.addAttribute("modes", modes);
 
 		Customer customer = customerRepository.findOneById(id);
@@ -175,7 +209,7 @@ public class AdminAccountController {
 			@RequestParam(name = "password", defaultValue = "") String password,
 			@RequestParam(name = "rePassword", defaultValue = "") String rePassword,
 			Model model) {
-		List<Mode> modes = modeRepository.findAll();
+		List<Mode> modes = modeRepository.findByOrderById();
 		model.addAttribute("modes", modes);
 
 		Customer customer = customerRepository.findOneById(id);
@@ -183,14 +217,15 @@ public class AdminAccountController {
 		if (!email.equals(customer.getEmail()))
 			eCustomer = customerRepository.findOneByEmail(email);
 
-		List<Customer> customers = customerRepository.findByModeId(1);
+		List<Customer> customers = customerRepository.findByModeIdOrderById(1);
 
 		if (name.length() == 0 || email.length() == 0 || password.length() == 0 || rePassword.length() == 0
 				|| !password.equals(rePassword) || address.length() == 0 || tel.length() == 0
-				|| !email.equals(customer.getEmail()) && customer != null || modeId != 1 && customers.size() == 1) {
+				|| !email.equals(customer.getEmail()) && customer != null
+				|| modeId != 1 && customer.getModeId() == 1 && customers.size() == 1) {
 			String msg = "";
 
-			if (modeId != 1 && customers.size() == 1)
+			if (modeId != 1 && customer.getModeId() == 1 && customers.size() == 1)
 				msg += "<p>管理者アカウントがなくなります　先に管理者アカウントを新たに作成するかモード変更をお辞めください</p>";
 			if (name.length() == 0)
 				msg += "<p>名前を入力してください</p>";
@@ -240,13 +275,23 @@ public class AdminAccountController {
 			RedirectAttributes redirectAttributes) {
 
 		Customer customer = customerRepository.findOneById(id);
-		List<Customer> customers = customerRepository.findByModeId(1);
+		List<Customer> customers = customerRepository.findByModeIdOrderById(1);
 
-		if (customer.getId() == 1 && customers.size() == 1) {
+		if (customer.getModeId() == 1 && customers.size() == 1) {
 			String msg = "管理者アカウントがなくなります\r\n先に管理者アカウントを新たに作成するか\r\nこのアカウントの削除をお辞めください";
 
 			redirectAttributes.addFlashAttribute("msg", msg);
 		} else {
+			if (customer.getModeId() < 3) {
+				List<Shop> shops = shopRepository.findByCustomerIdOrderById(id);
+				for (Shop shop : shops) {
+					List<Item> items = itemRepository.findByShopIdOrderById(shop.getId());
+					for (Item item : items) {
+						item.setStockCount(0);
+					}
+				}
+			}
+
 			customerRepository.deleteById(id);
 			if (account.getId() == id) {
 				account.setId(null);
