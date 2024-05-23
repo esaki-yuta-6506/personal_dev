@@ -9,7 +9,7 @@
 </head>
 
 <body>
-	<header th:replace="defaultHeader"></header>
+	<header th:replace="~{defaultHeader}"></header>
 	<main id="main">
 		<th:block th:if="${item.status != 0}">
 			<h1>商品詳細</h1>
@@ -97,7 +97,7 @@
 			<h1>商品は削除されました</h1>
 		</th:block>
 	</main>
-	<footer th:replace="footer"></footer>
+	<footer th:replace="~{footer}"></footer>
 </body>
 
 </html>

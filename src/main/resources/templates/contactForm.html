@@ -7,7 +7,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script></head>
 
 <body>
-	<header th:replace="defaultHeader"></header>
+	<header th:replace="~{defaultHeader}"></header>
 	<h1>注文</h1>
 	<span th:utext="${msg}" style="color: red;"></span>
 	<h3>ご注文商品</h3>
@@ -100,6 +100,6 @@
 		<button>注文</button>
 	</form>
 	<a href="/items">商品一覧へ</a>
-<footer th:replace="footer"></footer></body>
+<footer th:replace="~{footer}"></footer></body>
 
 </html>

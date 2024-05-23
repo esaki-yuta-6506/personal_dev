@@ -149,7 +149,6 @@ public class ItemController {
 			@PathVariable("id") Integer id,
 			@PathVariable("reviewId") Integer reviewId,
 			Model model) {
-
 		Item item = itemRepository.findOneById(id);
 		model.addAttribute("item", item);
 
@@ -205,10 +204,10 @@ public class ItemController {
 	}
 
 	@GetMapping("/items/{id}/review/{reviewId}/delete")
-	public String set(
+	public String delete(
 			@PathVariable("id") Integer id,
 			@PathVariable("reviewId") Integer reviewId) {
-
+		
 		Review review = reviewRepository.findOneById(reviewId);
 
 		if (review.getItemId() == id)

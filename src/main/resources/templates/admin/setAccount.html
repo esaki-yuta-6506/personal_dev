@@ -8,7 +8,7 @@
 
 <body>
 	
-	<header th:replace="admin/adminHeader"></header>
+	<header th:replace="~{admin/adminHeader}"></header>
 	<main id="main">
 	<h1>アカウント更新</h1>
 	<span style="color: red;" th:utext="${msg}"></span>
@@ -50,6 +50,6 @@
 		</table><br>
 		<button>更新</button>
 	</form>
-<footer th:replace="footer"></footer></body>
+<footer th:replace="~{footer}"></footer></body>
 
 </html>

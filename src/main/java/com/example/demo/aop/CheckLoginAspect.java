@@ -42,7 +42,8 @@ public class CheckLoginAspect {
 
 		if (account == null || account.getName() == null || account.getName().length() == 0) {
 			System.err.println("ログインしていません!");
-			return "redirect:/login?error=notLoggedIn";
+			//return "redirect:/login?error=notLoggedIn";
+			return "redirect:/login";
 		}
 		//Controller内のメソッドの実行
 		return jp.proceed();
@@ -62,7 +63,8 @@ public class CheckLoginAspect {
 
 	//管理者アカウントが不正の場合はitemsに返す
 	@Around("execution(* com.example.demo.controller.admin.AdminAccountController.*(..))"
-			+ " || execution(* com.example.demo.controller.admin.AdminShopController.*(..))")
+			+ " || execution(* com.example.demo.controller.admin.AdminShopController.*(..))"
+			+ " || execution(* com.example.demo.controller.admin.AdminCategoryController.*(..))")
 	public Object checkAdmin(ProceedingJoinPoint jp) throws Throwable {
 
 		if (account == null || account.getName() == null || account.getName().length() == 0 || account.getModeId() != 1) {

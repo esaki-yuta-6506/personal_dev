@@ -10,7 +10,7 @@
 
 <body>
 
-	<header th:replace="admin/adminHeader"></header>
+	<header th:replace="~{admin/adminHeader}"></header>
 	<main id="main">
 		<h1>[[${shop.name}]]</h1>
 		<table border="1">
@@ -35,6 +35,9 @@
 				</td>
 			</tr>
 		</table>
+		<form th:action="'/admin/shop/delete/' + ${shop.id} + '/absolute'" method="get" th:if="${shop.status == 0}">
+			<button style="background-color: darkred;">完全削除</button>
+		</form>
 		<br>
 		<h3>商品一覧</h3>
 		<table border="1">
@@ -76,7 +79,7 @@
 		</table>
 		<a th:href="'/admin/shop/' + ${shop.id} + '/add'">商品追加</a>
 	</main>
-	<footer th:replace="footer"></footer>
+	<footer th:replace="~{footer}"></footer>
 </body>
 
 </html>

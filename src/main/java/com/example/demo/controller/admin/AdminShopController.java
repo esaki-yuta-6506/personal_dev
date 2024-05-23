@@ -38,13 +38,13 @@ public class AdminShopController {
 
 	@Autowired
 	CustomerRepository customerRepository;
-	
+
 	@Autowired
 	PlanRepository planRepository;
-	
+
 	@Autowired
 	CategoryRepository categoryRepository;
-	
+
 	@Autowired
 	ReviewRepository reviewRepository;
 
@@ -70,13 +70,13 @@ public class AdminShopController {
 			Model model) {
 		List<Plan> plans = planRepository.findByOrderById();
 		model.addAttribute("plans", plans);
-		
+
 		Shop shop = shopRepository.findOneById(id);
 		model.addAttribute("shop", shop);
 
 		List<Item> items = itemRepository.findByShopIdOrderById(id);
 		model.addAttribute("items", items);
-		
+
 		List<Category> categories = categoryRepository.findByOrderById();
 		model.addAttribute("categories", categories);
 
@@ -108,10 +108,10 @@ public class AdminShopController {
 	public String addItem(
 			@PathVariable("id") Integer id,
 			Model model) {
-		
+
 		List<Category> categories = categoryRepository.findByOrderById();
 		model.addAttribute("categories", categories);
-		
+
 		model.addAttribute("id", id);
 		return "admin/addItem";
 	}
@@ -123,8 +123,11 @@ public class AdminShopController {
 			@RequestParam(name = "categoryId", defaultValue = "") Integer categoryId,
 			@RequestParam(name = "price", defaultValue = "") Integer price,
 			@RequestParam(name = "stockCount", defaultValue = "") Integer stockCount,
+			@RequestParam(name = "status", defaultValue = "") Integer status,
 			Model model) {
-		
+		Shop shop = shopRepository.findOneById(id);
+		model.addAttribute("shop", shop);
+
 		List<Category> categories = categoryRepository.findByOrderById();
 		model.addAttribute("categories", categories);
 
@@ -134,6 +137,7 @@ public class AdminShopController {
 			model.addAttribute("categoryId", categoryId);
 			model.addAttribute("price", price);
 			model.addAttribute("stockCount", stockCount);
+			model.addAttribute("status", status);
 
 			String msg = "";
 
@@ -146,12 +150,12 @@ public class AdminShopController {
 			if (stockCount == null)
 				msg += "<p>在庫数が未入力です</p>";
 
-			model.addAttribute("mas", msg);
+			model.addAttribute("msg", msg);
 
 			return "admin/addItem";
 		}
 
-		Item item = new Item(categoryId, id, name, price, stockCount);
+		Item item = new Item(categoryId, id, name, price, stockCount, status);
 		itemRepository.save(item);
 
 		return "redirect:/admin/shop/" + id;
@@ -162,9 +166,13 @@ public class AdminShopController {
 			@PathVariable("id") Integer id,
 			@PathVariable("itemId") Integer itemId,
 			Model model) {
-		
+
+		Shop shop = shopRepository.findOneById(id);
+		model.addAttribute("shop", shop);
+
 		List<Category> categories = categoryRepository.findByOrderById();
 		model.addAttribute("categories", categories);
+
 		model.addAttribute("id", id);
 		Item item = itemRepository.findOneById(itemId);
 		model.addAttribute("item", item);
@@ -173,6 +181,7 @@ public class AdminShopController {
 		model.addAttribute("categoryId", item.getCategoryId());
 		model.addAttribute("price", item.getPrice());
 		model.addAttribute("stockCount", item.getStockCount());
+		model.addAttribute("status", item.getStatus());
 		return "admin/setItem";
 	}
 
@@ -184,8 +193,12 @@ public class AdminShopController {
 			@RequestParam(name = "categoryId", defaultValue = "") Integer categoryId,
 			@RequestParam(name = "price", defaultValue = "") Integer price,
 			@RequestParam(name = "stockCount", defaultValue = "") Integer stockCount,
+			@RequestParam(name = "status", defaultValue = "") Integer status,
 			Model model) {
-		
+
+		Shop shop = shopRepository.findOneById(id);
+		model.addAttribute("shop", shop);
+
 		List<Category> categories = categoryRepository.findByOrderById();
 		model.addAttribute("categories", categories);
 
@@ -196,6 +209,7 @@ public class AdminShopController {
 			model.addAttribute("categoryId", categoryId);
 			model.addAttribute("price", price);
 			model.addAttribute("stockCount", stockCount);
+			model.addAttribute("status", status);
 
 			String msg = "";
 
@@ -208,13 +222,13 @@ public class AdminShopController {
 			if (stockCount == null)
 				msg += "<p>在庫数が未入力です</p>";
 
-			model.addAttribute("mas", msg);
+			model.addAttribute("msg", msg);
 
 			return "admin/setItem";
 		}
 
 		Item item = itemRepository.findOneById(itemId);
-		item = new Item(itemId, categoryId, id, name, price, stockCount, item.getSellCount());
+		item = new Item(itemId, categoryId, id, name, price, stockCount, item.getSellCount(), status);
 		itemRepository.save(item);
 
 		return "redirect:/admin/shop/" + id;
@@ -227,8 +241,18 @@ public class AdminShopController {
 		Item item = itemRepository.findOneById(itemId);
 		item.setStatus(0);
 		item.setStockCount(0);
-		
+
 		itemRepository.save(item);
+
+		return "redirect:/admin/shop/" + id;
+	}
+
+	@GetMapping("/admin/shop/{id}/delete/{itemId}/absolute")
+	public String deleteItemAbsolute(
+			@PathVariable("id") Integer id,
+			@PathVariable("itemId") Integer itemId) {
+
+		itemRepository.deleteById(itemId);
 
 		return "redirect:/admin/shop/" + id;
 	}
@@ -290,6 +314,7 @@ public class AdminShopController {
 		model.addAttribute("customerId", shop.getCustomerId());
 		model.addAttribute("palnId", shop.getPlanId());
 		model.addAttribute("name", shop.getName());
+		model.addAttribute("status", shop.getStatus());
 		return "admin/setShop";
 	}
 
@@ -299,6 +324,7 @@ public class AdminShopController {
 			@RequestParam(name = "customerId", defaultValue = "") Integer customerId,
 			@RequestParam(name = "name", defaultValue = "") String name,
 			@RequestParam(name = "planId", defaultValue = "") Integer planId,
+			@RequestParam(name = "status", defaultValue = "") Integer status,
 			Model model) {
 		List<Plan> plans = planRepository.findByOrderById();
 		model.addAttribute("plans", plans);
@@ -311,6 +337,7 @@ public class AdminShopController {
 			model.addAttribute("customerId", customerId);
 			model.addAttribute("palnId", planId);
 			model.addAttribute("name", name);
+			model.addAttribute("status", status);
 
 			String msg = "";
 
@@ -322,7 +349,7 @@ public class AdminShopController {
 			return "admin/setShop";
 		}
 		Shop shop = shopRepository.findOneById(id);
-		shop = new Shop(id, planId, account.getId(), name);
+		shop = new Shop(id, planId, account.getId(), name, status);
 		shopRepository.save(shop);
 
 		return "redirect:/admin/shop/" + id;
@@ -338,6 +365,23 @@ public class AdminShopController {
 			item.setStatus(0);
 			item.setStockCount(0);
 			itemRepository.save(item);
+		}
+
+		Shop shop = shopRepository.findOneById(id);
+		shop.setStatus(0);
+		shopRepository.save(shop);
+
+		return "redirect:/admin/shop";
+	}
+
+	@GetMapping("/admin/shop/delete/{id}/absolute")
+	public String deleteAbsolute(
+			@PathVariable("id") Integer id) {
+
+		List<Item> items = itemRepository.findByShopIdOrderById(id);
+
+		for (Item item : items) {
+			itemRepository.deleteById(item.getId());
 		}
 
 		shopRepository.deleteById(id);

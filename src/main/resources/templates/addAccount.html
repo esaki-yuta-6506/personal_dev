@@ -10,7 +10,7 @@
 
 <body>
 	<header id="header">
-		<h1>エンジョイマーケット</h1>
+		<h1><a href="/items" style="text-decoration:none; color: black;">Encircle Market</a></h1>
 		<script>
 			$(function () {
 				var height = $("#header").height();
@@ -53,7 +53,7 @@
 		</form>
 		<button onclick="location.href='/login'">戻る</button>
 	</main>
-	<footer th:replace="footer"></footer>
+	<footer th:replace="~{footer}"></footer>
 </body>
 
 </html>

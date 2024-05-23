@@ -9,7 +9,7 @@
 </head>
 
 <body>
-	<header th:replace="admin/adminHeader"></header>
+	<header th:replace="~{admin/adminHeader}"></header>
 	<main id="main">
 		<h1>ショップ更新</h1>
 		<form th:action="'/admin/shop/set/' + ${id}" method="post">
@@ -19,7 +19,7 @@
 					<td>
 						<select name="customerId">
 							<option th:each="customer:${customers}" th:value="${customer.id}" th:text="${customer.name}"
-								th:if="${customer.modeId < 3}"></option>
+								th:if="${customer.modeId < 3}" th:selected="${customerId == customer.id}"></option>
 						</select>
 					</td>
 				</tr>
@@ -27,7 +27,8 @@
 					<th>プラン</th>
 					<td>
 						<select name="planId">
-							<option th:each="plan:${plans}" th:value="${plan.id}" th:text="${plan.name}"></option>
+							<option th:each="plan:${plans}" th:value="${plan.id}" th:text="${plan.name}"
+								th:selected="${planId == plan.id}"></option>
 						</select>
 					</td>
 				</tr>
@@ -35,11 +36,20 @@
 					<th>ショップ名</th>
 					<td><input type="text" name="name" th:value="${name}"></td>
 				</tr>
+				<tr>
+					<th>状態</th>
+					<td>
+						<select name="status">
+							<option value="0" th:selected="${status == 0}">削除済み</option>
+							<option value="1" th:selected="${status == 1}">保存中</option>
+						</select>
+					</td>
+				</tr>
 			</table>
 			<button>更新</button>
 		</form>
 	</main>
-	<footer th:replace="footer"></footer>
+	<footer th:replace="~{footer}"></footer>
 </body>
 
 </html>

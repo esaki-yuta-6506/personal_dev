@@ -3,35 +3,40 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>ショップ管理メニュー</title><link rel="stylesheet" type="text/css" href="/css/style.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script></head>
+	<title>ショップ管理メニュー</title>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+</head>
 
 <body>
-	<a href="/items">戻る</a><br>
-	<h1>ショップ管理メニュー</h1>
-	<table border="1">
-		<tr>
-			<th>ショップ名</th>
-			<th>プラン</th>
-			<th>更新</th>
-			<th>削除</th>
-		</tr>
-		<tr th:each="shop:${shops}">
-			<td th:utext="${shop.url}"></td>
-			<td th:each="plan:${plans}" th:if="${plan.id == shop.planId}" th:text="${plan.name}"></td>
-			<td>
-				<form th:action="'/shop/set/' + ${shop.id}" method="get">
-					<button>更新</button>
-				</form>
-			</td>
-			<td>
-				<form th:action="'/shop/delete/' + ${shop.id}" method="get">
-					<button>削除</button>
-				</form>
-			</td>
-		</tr>
-	</table>
-	<button onclick="location.href='/shop/add'">ショップを追加する</button>
-<footer th:replace="footer"></footer></body>
+	<header th:replace="~{shop/shopHeader}"></header>
+	<main id="main">
+		<h1>ショップ管理メニュー</h1>
+		<table border="1">
+			<tr>
+				<th>ショップ名</th>
+				<th>プラン</th>
+				<th>更新</th>
+				<th>削除</th>
+			</tr>
+			<tr th:each="shop:${shops}" th:if="${shop.status == 1}">
+				<td th:utext="${shop.url}"></td>
+				<td th:each="plan:${plans}" th:if="${plan.id == shop.planId}" th:text="${plan.name}"></td>
+				<td>
+					<form th:action="'/shop/set/' + ${shop.id}" method="get">
+						<button>更新</button>
+					</form>
+				</td>
+				<td>
+					<form th:action="'/shop/delete/' + ${shop.id}" method="get">
+						<button>削除</button>
+					</form>
+				</td>
+			</tr>
+		</table>
+		<button onclick="location.href='/shop/add'" style="width: fit-content;">ショップを追加する</button>
+	</main>
+	<footer th:replace="~{footer}"></footer>
+</body>
 
 </html>

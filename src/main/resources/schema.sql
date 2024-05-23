@@ -100,7 +100,8 @@ CREATE TABLE shops
    id SERIAL PRIMARY KEY,
    plan_id INTEGER,
    customer_id INTEGER,
-   name TEXT
+   name TEXT,
+   status INTEGER
 );
 -- レビューテーブル
 CREATE TABLE reviews

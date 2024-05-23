@@ -39,26 +39,28 @@ public class Item {
 	public Item() {
 	}
 
-	public Item(Integer categoryId, Integer shopId, String name, Integer price, Integer stockCount) {
+	public Item(Integer categoryId, Integer shopId, String name, Integer price, Integer stockCount, Integer status) {
 		this.categoryId = categoryId;
 		this.shopId = shopId;
 		this.name = name;
 		this.price = price;
 		this.stockCount = stockCount;
 		this.sellCount = 0;
+		this.status = status;
 	}
 
-	public Item(Integer categoryId, Integer shopId, String name, Integer price, Integer stockCount, Integer sellCount) {
+	public Item(Integer categoryId, Integer shopId, String name, Integer price, Integer stockCount, Integer sellCount, Integer status) {
 		this.categoryId = categoryId;
 		this.shopId = shopId;
 		this.name = name;
 		this.price = price;
 		this.stockCount = stockCount;
 		this.sellCount = sellCount;
+		this.status = status;
 	}
 
 	public Item(Integer id, Integer categoryId, Integer shopId, String name, Integer price, Integer stockCount,
-			Integer sellCount) {
+			Integer sellCount, Integer status) {
 		this.id = id;
 		this.categoryId = categoryId;
 		this.shopId = shopId;
@@ -66,6 +68,7 @@ public class Item {
 		this.price = price;
 		this.stockCount = stockCount;
 		this.sellCount = sellCount;
+		this.status = status;
 	}
 
 	public Integer getId() {

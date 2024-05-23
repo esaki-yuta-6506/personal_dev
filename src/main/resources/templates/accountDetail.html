@@ -9,7 +9,7 @@
 </head>
 
 <body>
-	<header th:replace="defaultHeader"></header>
+	<header th:replace="~{defaultHeader}"></header>
 	<main id="main">
 		<h1>アカウント詳細</h1>
 		<table border="1">
@@ -73,6 +73,9 @@
 			<table border="1">
 				<block th:each="review:${reviews}">
 					<tr>
+						<th th:each="item:${items}" th:if="${item.id == review.itemId}" colspan="2">商品名：[[${item.name}]]</th>
+					</tr>
+					<tr>
 						<th align="left" style="position: relative;">
 							<span th:text="${review.title}"></span>
 							<box2 style="right: 0; position: absolute;">
@@ -95,11 +98,17 @@
 				<tr>
 					<th>注文ID</th>
 					<th>注文日</th>
+					<th>配送ID</th>
+					<th>配送先</th>
 					<th>合計金額</th>
 				</tr>
 				<tr th:each="order : ${orders}">
 					<td th:text="${order.id}"></td>
 					<td th:text="${#temporals.format(order.orderedOn, 'yyyy-MM-dd')}"></td>
+					<td th:if="${order.contactId == 0}">-</td>
+					<td th:text="${order.contactId}" th:if="${order.contactId != 0}"></td>
+					<td th:if="${order.contactId == 0}">自宅</td>
+					<td th:each="contact:${contacts}" th:if="${order.contactId == contact.id}" th:text="${contact.name} + ' ' + ${contact.address}"></td>
 					<td th:text="${order.totalPrice}"></td>
 				</tr>
 			</table>
@@ -131,7 +140,7 @@
 			</table>
 		</th:block>
 	</main>
-	<footer th:replace="footer"></footer>
+	<footer th:replace="~{footer}"></footer>
 </body>
 
 </html>

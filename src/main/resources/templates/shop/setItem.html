@@ -1,43 +1,82 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>商品更新</title><link rel="stylesheet" type="text/css" href="/css/style.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script></head>
+	<meta charset="UTF-8">
+	<title>商品更新</title>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+</head>
+
 <body>
-	<a th:href="'/shop/' + ${id}">戻る</a><br>
-	<h1>商品更新</h1>
-	<span th:utext="${msg}"></span>
-	<form th:action="'/shop/' + ${id} + '/set/' + ${itemId}" method="post">
-		<table border="1">
-			<tr>
-				<th>商品名</th>
-				<td>
-					<input type="text" name="name" th:value="${name}">
-				</td>
-			</tr>
-			<tr>
-				<th>カテゴリー</th>
-				<td>
-					<select name="categoryId">
-						<option th:each="category:${categories}" th:value="${category.id}" th:text="${category.name}" th:selected="${categoryId == category.id}"></option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<th>価格</th>
-				<td>
-					<input type="number" name="price" th:value="${price}" min="0">
-				</td>
-			</tr>
-			<tr>
-				<th>在庫数</th>
-				<td>
-					<input type="number" name="stockCount" th:value="${stockCount}" min="0">
-				</td>
-			</tr>
-		</table>
-		<button>商品更新</button>
-	</form>
-<footer th:replace="footer"></footer></body>
+	<header id="header">
+		<h1>Encircle Market</h1>
+		<div>
+			<box>
+				<a href="/shop" class="left">ショップメニュー</a>　
+				<a th:href="'/shop/' + ${shop.id}" class="left">戻る</a>
+			</box>
+			<box3>
+				<a href="/items" id="center">トップページ</a>
+			</box3>
+			<box2>
+				<span th:text="${@account.name}+' さん'"></span>　
+				<a href="/logout">ログアウト</a>
+			</box2>
+		</div>
+		<script>
+			$(function () {
+				var height = $("#header").height();
+				$("body").css("margin-top", height + 10);
+			});
+		</script>
+	</header>
+	<main id="main">
+		<h1>商品更新</h1>
+		<span th:utext="${msg}"></span>
+		<form th:action="'/shop/' + ${id} + '/set/' + ${itemId}" method="post">
+			<table border="1">
+				<tr>
+					<th>商品名</th>
+					<td>
+						<input type="text" name="name" th:value="${name}">
+					</td>
+				</tr>
+				<tr>
+					<th>カテゴリー</th>
+					<td>
+						<select name="categoryId">
+							<option th:each="category:${categories}" th:value="${category.id}"
+								th:text="${category.name}" th:selected="${categoryId == category.id}"></option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>価格</th>
+					<td>
+						<input type="number" name="price" th:value="${price}" min="0">
+					</td>
+				</tr>
+				<tr>
+					<th>在庫数</th>
+					<td>
+						<input type="number" name="stockCount" th:value="${stockCount}" min="0">
+					</td>
+				</tr>
+				<tr>
+					<th>状態</th>
+					<td>
+						<select name="status">
+							<option value="1" th:selected="${status == 1}">販売中止</option>
+							<option value="2" th:selected="${status == 2}">販売中</option>
+						</select>
+					</td>
+				</tr>
+			</table>
+			<button>商品更新</button>
+		</form>
+	</main>
+	<footer th:replace="~{footer}"></footer>
+</body>
+
 </html>

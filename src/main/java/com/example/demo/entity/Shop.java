@@ -23,6 +23,8 @@ public class Shop {
 
 	private String name;
 	
+	private Integer status;
+	
 	@Transient
 	private String url;
 
@@ -33,12 +35,22 @@ public class Shop {
 		this.planId = 2;
 		this.customerId = customerId;
 		this.name = name;
+		this.status = 1;
 	}
 
 	public Shop(Integer planId, Integer customerId, String name) {
 		this.planId = planId;
 		this.customerId = customerId;
 		this.name = name;
+		this.status = 1;
+	}
+
+	public Shop(Integer id, Integer planId, Integer customerId, String name, Integer status) {
+		this.id = id;
+		this.planId = planId;
+		this.customerId = customerId;
+		this.name = name;
+		this.status = status;
 	}
 
 	public Shop(Integer id, Integer planId, Integer customerId, String name) {
@@ -46,6 +58,7 @@ public class Shop {
 		this.planId = planId;
 		this.customerId = customerId;
 		this.name = name;
+		this.status = 1;
 	}
 
 	public Integer getId() {
@@ -91,4 +104,13 @@ public class Shop {
 	public void setUrl() {
 		this.url = "<a href = '/shop/"+id+"'>"+name+"</a>";
 	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+	
 }

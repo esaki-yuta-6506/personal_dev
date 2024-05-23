@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>URLエラー</title>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+</head>
+
+<body>
+	<header th:replace="~{defaultHeader}"></header>
+	<main id="main">
+		<div style="display: flex; flex-direction: column; width: fit-content; margin: auto;">
+			<div style="width: 100%; margin: auto;">
+				<div
+					style="width: fit-content; display: flex; justify-content:center; flex-direction: column; margin: auto;">
+					<div style="text-align: center; display: block; width: fit-content; margin: auto;">
+						<span style="font-weight: bold; font-size: 6rem; color: #555;">[[${status}]]</span>
+						<span style="font-size: 3rem; color: #aaa;">[[${error}]]</span>
+					</div>
+					<div
+						style="width: 100%;font-size: 1.6rem; line-height: 1.8; color: #555;  margin-top: 8px; margin: auto;">
+						お探しのページは一時的にアクセスができない状況にあるか、移動もしくは削除された可能性があります。<br>
+						また、URL、ファイル名にタイプミスがないか再度ご確認ください。</div>
+				</div>
+			</div>
+		</div>
+		<br>
+		<p>[[${rootcause}]]</p>
+	</main>
+	<footer th:replace="~{footer}"></footer>
+</body>
+
+</html>

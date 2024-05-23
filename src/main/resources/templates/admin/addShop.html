@@ -9,7 +9,7 @@
 </head>
 
 <body>
-	<header th:replace="admin/adminHeader"></header>
+	<header th:replace="~{admin/adminHeader}"></header>
 	<main id="main">
 		<h1>ショップ追加</h1>
 		<span th:utext="${msg}"></span>
@@ -40,7 +40,7 @@
 			<button>作成</button>
 		</form>
 	</main>
-	<footer th:replace="footer"></footer>
+	<footer th:replace="~{footer}"></footer>
 </body>
 
 </html>

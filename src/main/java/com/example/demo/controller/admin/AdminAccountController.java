@@ -172,9 +172,6 @@ public class AdminAccountController {
 		customer = new Customer(modeId, name, address, tel, email, password);
 		customerRepository.save(customer);
 
-		Contact contact = new Contact(customer.getId(), name, address, tel, email);
-		contactRepository.save(contact);
-
 		return "redirect:/admin/account";
 	}
 
@@ -287,9 +284,18 @@ public class AdminAccountController {
 				for (Shop shop : shops) {
 					List<Item> items = itemRepository.findByShopIdOrderById(shop.getId());
 					for (Item item : items) {
+						item.setStatus(0);
 						item.setStockCount(0);
+						itemRepository.save(item);
 					}
+					shop.setStatus(0);
+					shopRepository.save(shop);
 				}
+			}
+
+			List<Contact> contacts = contactRepository.findByCustomerIdOrderById(id);
+			for (Contact contact : contacts) {
+				contactRepository.deleteById(contact.getId());
 			}
 
 			customerRepository.deleteById(id);

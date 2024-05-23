@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>カテゴリー更新</title>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+</head>
+<body>
+<header th:replace="~{admin/adminHeader}"></header>
+	<main id="main">
+		<h1>ショップ更新</h1>
+		<p th:text="${msg}" style="color: red;"></p>
+		<form th:action="'/admin/category/set/' + ${category.id}" method="post">
+			<table border="1">
+				<tr>
+					<th>カテゴリー名</th>
+					<td style="padding: 5px;"><input type="text" name="name" th:value="${name}" placeholder="Category Name" style="width: 90%;"></td>
+				</tr>
+			</table>
+			<button>更新</button>
+		</form>
+	</main>
+	<footer th:replace="~{footer}"></footer>
+</body>
+</html>

@@ -93,6 +93,8 @@ public class ShopController {
 		if (account.getId() != shopRepository.findOneById(id).getCustomerId()) {
 			return "redirect:/shop";
 		}
+		Shop shop = shopRepository.findOneById(id);
+		model.addAttribute("shop", shop);
 
 		List<Category> categories = categoryRepository.findByOrderById();
 		model.addAttribute("categories", categories);
@@ -117,6 +119,8 @@ public class ShopController {
 		if (account.getId() != shopRepository.findOneById(id).getCustomerId()) {
 			return "redirect:/shop";
 		}
+		Shop shop = shopRepository.findOneById(id);
+		model.addAttribute("shop", shop);
 
 		List<Category> categories = categoryRepository.findByOrderById();
 		model.addAttribute("categories", categories);
@@ -132,10 +136,13 @@ public class ShopController {
 			@RequestParam(name = "categoryId", defaultValue = "") Integer categoryId,
 			@RequestParam(name = "price", defaultValue = "") Integer price,
 			@RequestParam(name = "stockCount", defaultValue = "") Integer stockCount,
+			@RequestParam(name = "status", defaultValue = "") Integer status,
 			Model model) {
 		if (account.getId() != shopRepository.findOneById(id).getCustomerId()) {
 			return "redirect:/shop";
 		}
+		Shop shop = shopRepository.findOneById(id);
+		model.addAttribute("shop", shop);
 
 		List<Category> categories = categoryRepository.findByOrderById();
 		model.addAttribute("categories", categories);
@@ -146,6 +153,7 @@ public class ShopController {
 			model.addAttribute("categoryId", categoryId);
 			model.addAttribute("price", price);
 			model.addAttribute("stockCount", stockCount);
+			model.addAttribute("status", status);
 
 			String msg = "";
 
@@ -163,7 +171,7 @@ public class ShopController {
 			return "shop/addItem";
 		}
 
-		Item item = new Item(categoryId, id, name, price, stockCount);
+		Item item = new Item(categoryId, id, name, price, stockCount, status);
 		itemRepository.save(item);
 
 		return "redirect:/shop/" + id;
@@ -177,6 +185,8 @@ public class ShopController {
 		if (account.getId() != shopRepository.findOneById(id).getCustomerId()) {
 			return "redirect:/shop";
 		}
+		Shop shop = shopRepository.findOneById(id);
+		model.addAttribute("shop", shop);
 
 		List<Category> categories = categoryRepository.findByOrderById();
 		model.addAttribute("categories", categories);
@@ -189,6 +199,7 @@ public class ShopController {
 		model.addAttribute("categoryId", item.getCategoryId());
 		model.addAttribute("price", item.getPrice());
 		model.addAttribute("stockCount", item.getStockCount());
+		model.addAttribute("status", item.getStatus());
 		return "shop/setItem";
 	}
 
@@ -200,10 +211,13 @@ public class ShopController {
 			@RequestParam(name = "categoryId", defaultValue = "") Integer categoryId,
 			@RequestParam(name = "price", defaultValue = "") Integer price,
 			@RequestParam(name = "stockCount", defaultValue = "") Integer stockCount,
+			@RequestParam(name = "status", defaultValue = "") Integer status,
 			Model model) {
 		if (account.getId() != shopRepository.findOneById(id).getCustomerId()) {
 			return "redirect:/shop";
 		}
+		Shop shop = shopRepository.findOneById(id);
+		model.addAttribute("shop", shop);
 
 		List<Category> categories = categoryRepository.findByOrderById();
 		model.addAttribute("categories", categories);
@@ -215,6 +229,7 @@ public class ShopController {
 			model.addAttribute("categoryId", categoryId);
 			model.addAttribute("price", price);
 			model.addAttribute("stockCount", stockCount);
+			model.addAttribute("status", status);
 
 			String msg = "";
 
@@ -233,7 +248,7 @@ public class ShopController {
 		}
 
 		Item item = itemRepository.findOneById(itemId);
-		item = new Item(itemId, categoryId, id, name, price, stockCount, item.getSellCount());
+		item = new Item(itemId, categoryId, id, name, price, stockCount, item.getSellCount(), status);
 		itemRepository.save(item);
 
 		return "redirect:/shop/" + id;
@@ -326,6 +341,7 @@ public class ShopController {
 		if (name.length() == 0) {
 			model.addAttribute("id", id);
 			model.addAttribute("name", name);
+			model.addAttribute("palnId", planId);
 
 			String msg = "";
 
@@ -358,7 +374,9 @@ public class ShopController {
 			itemRepository.save(item);
 		}
 
-		shopRepository.deleteById(id);
+		Shop shop = shopRepository.findOneById(id);
+		shop.setStatus(0);
+		shopRepository.save(shop);
 
 		return "redirect:/shop";
 	}

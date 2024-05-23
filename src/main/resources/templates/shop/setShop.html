@@ -3,26 +3,31 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>ショップ更新</title><link rel="stylesheet" type="text/css" href="/css/style.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script></head>
+	<title>ショップ更新</title>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+</head>
 
 <body>
-	<a href="/shop">戻る</a><br>
-	<h1>ショップ更新</h1>
-	<form th:action="'/shop/set/' + ${id}" method="post">
-		<table border="1">
-			<tr>
-				<th>プラン</th>
-				<td th:each="plan:${plans}" th:if="${plan.id == shop.planId}" th:text="${plan.name}"></td>
-				<input type="hidden" name="planId" th:value="${palnId}">
-			</tr>
-			<tr>
-				<th>ショップ名</th>
-				<td><input type="text" name="name" th:value="${name}"></td>
-			</tr>
-		</table>
-		<button>更新</button>
-	</form>
-<footer th:replace="footer"></footer></body>
+	<header th:replace="~{shop/shopHeader}"></header>
+	<main id="main">
+		<h1>ショップ更新</h1>
+		<form th:action="'/shop/set/' + ${id}" method="post">
+			<table border="1">
+				<tr>
+					<th>プラン</th>
+					<td th:each="plan:${plans}" th:if="${plan.id == shop.planId}" th:text="${plan.name}"></td>
+					<input type="hidden" name="planId" th:value="${palnId}">
+				</tr>
+				<tr>
+					<th>ショップ名</th>
+					<td><input type="text" name="name" th:value="${name}"></td>
+				</tr>
+			</table>
+			<button>更新</button>
+		</form>
+	</main>
+	<footer th:replace="~{footer}"></footer>
+</body>
 
 </html>

@@ -10,7 +10,7 @@
 
 <body>
 
-	<header th:replace="defaultHeader"></header>
+	<header th:replace="~{defaultHeader}"></header>
 	<main id="main">
 		<h1>アカウント更新</h1>
 		<span style="color: red;" th:utext="${msg}"></span>
@@ -26,11 +26,15 @@
 				</tr>
 				<tr>
 					<th>パスワード</th>
-					<td><input type="password" name="password" placeholder="Password"></td>
+					<td><input type="password" name="password" placeholder="Old Password"></td>
 				</tr>
 				<tr>
-					<th>パスワード(※もう一度入力してください)</th>
-					<td><input type="password" name="rePassword" placeholder="Password"></td>
+					<th>新しいパスワード</th>
+					<td><input type="password" name="newPassword" placeholder="New Password"></td>
+				</tr>
+				<tr>
+					<th>新しいパスワード(※もう一度入力してください)</th>
+					<td><input type="password" name="rePassword" placeholder="New Password"></td>
 				</tr>
 				<tr>
 					<th>住所</th>
@@ -43,7 +47,7 @@
 			</table><br>
 			<button>更新</button>
 		</form>
-		<footer th:replace="footer"></footer>
+		<footer th:replace="~{footer}"></footer>
 </body>
 
 </html>

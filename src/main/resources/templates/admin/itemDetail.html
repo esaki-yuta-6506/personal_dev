@@ -9,6 +9,7 @@
 </head>
 
 <body>
+	<header th:replace="~{admin/adminHeader}"></header>
 	<main id="main">
 		<h1>商品詳細</h1>
 		<table border="1">
@@ -47,6 +48,9 @@
 			</form>
 			<form th:action="'/admin/shop/' + ${shop.id} + '/delete/' + ${item.id}" style="display: inline;">
 				<button>削除</button>
+			</form>
+			<form th:action="'/admin/shop/' + ${shop.id} + '/delete/' + ${item.id} + '/absolute'" style="display: inline;" th:if="${item.status == 0}">
+				<button style="background-color: darkred;">完全削除</button>
 			</form>
 		<hr>
 		<h1>レビュー</h1>
@@ -95,7 +99,7 @@
 			}
 		</script>
 	</main>
-	<footer th:replace="footer"></footer>
+	<footer th:replace="~{footer}"></footer>
 </body>
 
 </html>

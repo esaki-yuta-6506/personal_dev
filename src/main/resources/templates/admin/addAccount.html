@@ -9,7 +9,7 @@
 </head>
 
 <body>
-	<header th:replace="admin/adminHeader"></header>
+	<header th:replace="~{admin/adminHeader}"></header>
 	<main id="main">
 		<h1>アカウント追加</h1>
 		<form action="/admin/account/add" method="post">
@@ -51,7 +51,7 @@
 			<button>登録</button>
 		</form>
 	</main>
-	<footer th:replace="footer"></footer>
+	<footer th:replace="~{footer}"></footer>
 </body>
 
 </html>

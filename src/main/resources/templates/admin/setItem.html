@@ -9,7 +9,7 @@
 </head>
 
 <body>
-	<header th:replace="admin/adminHeader"></header>
+	<header th:replace="~{admin/adminHeader}"></header>
 	<main id="main">
 		<h1>商品更新</h1>
 		<span th:utext="${msg}"></span>
@@ -42,12 +42,22 @@
 						<input type="number" name="stockCount" th:value="${stockCount}" min="0">
 					</td>
 				</tr>
+				<tr>
+					<th>状態</th>
+					<td>
+						<select name="status">
+							<option value="0" th:selected="${status == 0}">削除済み</option>
+							<option value="1" th:selected="${status == 1}">販売中止</option>
+							<option value="2" th:selected="${status == 2}">販売中</option>
+						</select>
+					</td>
+				</tr>
 			</table>
 			<button>商品更新</button>
 		</form>
 
 		<a th:href="'/admin/shop/' + ${id}">戻る</a>
-		<footer th:replace="footer"></footer>
+		<footer th:replace="~{footer}"></footer>
 </body>
 
 </html>

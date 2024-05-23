@@ -2,19 +2,20 @@ INSERT INTO categories(name) VALUES('本');
 INSERT INTO categories(name) VALUES('DVD');
 INSERT INTO categories(name) VALUES('ゲーム');
 
-INSERT INTO items(category_id, shop_id, name, price, stock_count, sell_count, status) VALUES(1, 1, 'Javaの基本', 2500, 76, 3, 2);
-INSERT INTO items(category_id, shop_id, name, price, stock_count, sell_count, status) VALUES(1, 1, 'MLB Fun', 980, 43, 1, 2);
-INSERT INTO items(category_id, shop_id, name, price, stock_count, sell_count, status) VALUES(1, 1, '料理BOOK!', 1200, 87, 0, 2);
+INSERT INTO items(category_id, shop_id, name, price, stock_count, sell_count, status) VALUES(1, 2, 'Javaの基本', 2500, 76, 3, 2);
+INSERT INTO items(category_id, shop_id, name, price, stock_count, sell_count, status) VALUES(1, 2, 'MLB Fun', 980, 43, 1, 2);
+INSERT INTO items(category_id, shop_id, name, price, stock_count, sell_count, status) VALUES(1, 2, '料理BOOK!', 1200, 87, 0, 2);
 
-INSERT INTO items(category_id, shop_id, name, price, stock_count, sell_count, status) VALUES(2, 2, 'なつかしのアニメシリーズ', 2000, 24, 0, 2);
-INSERT INTO items(category_id, shop_id, name, price, stock_count, sell_count, status) VALUES(2, 2, 'The Racer', 1000, 12, 0, 2);
-INSERT INTO items(category_id, shop_id, name, price, stock_count, sell_count, status) VALUES(2, 2, 'Space Wars 3', 1800, 34, 0, 2);
+INSERT INTO items(category_id, shop_id, name, price, stock_count, sell_count, status) VALUES(2, 3, 'なつかしのアニメシリーズ', 2000, 24, 0, 2);
+INSERT INTO items(category_id, shop_id, name, price, stock_count, sell_count, status) VALUES(2, 3, 'The Racer', 1000, 12, 0, 2);
+INSERT INTO items(category_id, shop_id, name, price, stock_count, sell_count, status) VALUES(2, 3, 'Space Wars 3', 1800, 34, 0, 2);
 
-INSERT INTO items(category_id, shop_id, name, price, stock_count, sell_count, status) VALUES(3, 3, 'パズルゲーム', 780, 53, 1, 2);
-INSERT INTO items(category_id, shop_id, name, price, stock_count, sell_count, status) VALUES(3, 3, 'Invader Fighter', 3400, 54, 0, 2);
-INSERT INTO items(category_id, shop_id, name, price, stock_count, sell_count, status) VALUES(3, 3, 'Play the BascketBall', 2200, 45, 0, 2);
+INSERT INTO items(category_id, shop_id, name, price, stock_count, sell_count, status) VALUES(3, 4, 'パズルゲーム', 780, 53, 1, 2);
+INSERT INTO items(category_id, shop_id, name, price, stock_count, sell_count, status) VALUES(3, 4, 'Invader Fighter', 3400, 54, 0, 2);
+INSERT INTO items(category_id, shop_id, name, price, stock_count, sell_count, status) VALUES(3, 4, 'Play the BascketBall', 2200, 45, 0, 2);
 
-INSERT INTO items(category_id, shop_id, name, price, stock_count, sell_count, status) VALUES(1, 1, 'Escape From Hell', 2200, 45, 0, 1);
+INSERT INTO items(category_id, shop_id, name, price, stock_count, sell_count, status) VALUES(1, 2, 'Escape From Hell', 2200, 45, 0, 1);
+INSERT INTO items(category_id, shop_id, name, price, stock_count, sell_count, status) VALUES(1, 2, 'Gone to Heven', 2400, 0, 0, 0);
 
 INSERT INTO modes(name) VALUES('管理者');
 INSERT INTO modes(name) VALUES('ショップ');
@@ -27,12 +28,11 @@ INSERT INTO customers(mode_id, name, address, tel, email, password) VALUES(2, '�
 INSERT INTO customers(mode_id, name, address, tel, email, password) VALUES(3, '田中太郎', '東京都', '090-1111-1111', 'tanaka@aaa.com', 'himitu');
 INSERT INTO customers(mode_id, name, address, tel, email, password) VALUES(3, '鈴木一郎', '大阪府', '090-1111-2222', 'suzuki@aaa.com', 'himi2');
 
-INSERT INTO contacts(customer_id, name, address, tel, email) VALUES(1, 'admin', '', '', 'admin');
-INSERT INTO contacts(customer_id, name, address, tel, email) VALUES(2, '佐々木小次郎', '東京都', '090-1111-3333', 'sasaki@aaa.com');
-INSERT INTO contacts(customer_id, name, address, tel, email) VALUES(3, '山本次郎', '東京都', '090-1111-4444', 'yamamoto@aaa.com');
-INSERT INTO contacts(customer_id, name, address, tel, email) VALUES(4, '坂本幸次郎', '東京都', '090-1111-5555', 'sakamoto@aaa.com');
-INSERT INTO contacts(customer_id, name, address, tel, email) VALUES(5, '田中太郎', '東京都', '090-1111-1111', 'tanaka@aaa.com');
-INSERT INTO contacts(customer_id, name, address, tel, email) VALUES(6, '鈴木一郎', '大阪府', '090-1111-2222', 'suzuki@aaa.com');
+INSERT INTO contacts(customer_id, name, address, tel, email) VALUES(1, '佐々木小次郎', '東京都', '090-1111-3333', 'sasaki@aaa.com');
+INSERT INTO contacts(customer_id, name, address, tel, email) VALUES(2, '山本次郎', '東京都', '090-1111-4444', 'yamamoto@aaa.com');
+INSERT INTO contacts(customer_id, name, address, tel, email) VALUES(3, '坂本幸次郎', '東京都', '090-1111-5555', 'sakamoto@aaa.com');
+INSERT INTO contacts(customer_id, name, address, tel, email) VALUES(4, '田中太郎', '東京都', '090-1111-1111', 'tanaka@aaa.com');
+INSERT INTO contacts(customer_id, name, address, tel, email) VALUES(5, '鈴木一郎', '大阪府', '090-1111-2222', 'suzuki@aaa.com');
 
 INSERT INTO wallets(name) VALUES('現金');
 INSERT INTO wallets(name) VALUES('クレジットカード');
@@ -51,8 +51,9 @@ INSERT INTO order_details(order_id, item_id, quantity) VALUES(2, 1, 1);
 INSERT INTO plans(name) VALUES('プレミアム');
 INSERT INTO plans(name) VALUES('エコノミー');
 
-INSERT INTO shops(plan_id, customer_id, name) VALUES(1, 2, '佐々木書店');
-INSERT INTO shops(plan_id, customer_id, name) VALUES(2, 3, 'YAMAMOTOビデオショップ');
-INSERT INTO shops(plan_id, customer_id, name) VALUES(2, 4, 'サカモトゲーム');
+INSERT INTO shops(plan_id, customer_id, name, status) VALUES(1, 1, 'テストショップ', 0);
+INSERT INTO shops(plan_id, customer_id, name, status) VALUES(1, 2, '佐々木書店', 1);
+INSERT INTO shops(plan_id, customer_id, name, status) VALUES(2, 3, 'YAMAMOTOビデオショップ', 1);
+INSERT INTO shops(plan_id, customer_id, name, status) VALUES(2, 4, 'サカモトゲーム', 1);
 
 INSERT INTO reviews(item_id, customer_id, reviewed_on, title, review_text, score) VALUES(1, 5, '2024/04/15', '最高の教材', 'とてもわかりやすかったです', 5);

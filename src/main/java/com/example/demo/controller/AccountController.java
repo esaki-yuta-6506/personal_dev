@@ -153,9 +153,6 @@ public class AccountController {
 
 		customerRepository.save(customer);
 
-		Contact contact = new Contact(customer.getId(), name, address, tel, email);
-		contactRepository.save(contact);
-
 		return "login";
 	}
 
@@ -223,6 +220,7 @@ public class AccountController {
 			@RequestParam(name = "tel", defaultValue = "") String tel,
 			@RequestParam(name = "email", defaultValue = "") String email,
 			@RequestParam(name = "password", defaultValue = "") String password,
+			@RequestParam(name = "newPassword", defaultValue = "") String newPassword,
 			@RequestParam(name = "rePassword", defaultValue = "") String rePassword,
 			Model model) {
 		List<Mode> modes = modeRepository.findByOrderById();
@@ -234,7 +232,8 @@ public class AccountController {
 			eCustomer = customerRepository.findOneByEmail(email);
 
 		if (name.length() == 0 || email.length() == 0 || password.length() == 0 || rePassword.length() == 0
-				|| !password.equals(rePassword) || address.length() == 0 || tel.length() == 0
+				|| newPassword.length() == 0 || !password.equals(customer.getPassword())
+				|| !newPassword.equals(rePassword) || address.length() == 0 || tel.length() == 0
 				|| !email.equals(customer.getEmail()) && customer != null) {
 			String msg = "";
 
@@ -245,11 +244,15 @@ public class AccountController {
 			if (!email.equals(customer.getEmail()) && eCustomer == null)
 				msg += "<p>そのメールアドレスは既に使用されています　別のメールアドレスを使用してください</p>";
 			if (password.length() == 0)
-				msg += "<p>パスワードを入力してください</p>";
+				msg += "<p>今までのパスワードを入力してください</p>";
+			if (!password.equals(customer.getPassword()))
+				msg += "<p>今までのパスワードが正しくありません</p>";
+			if (newPassword.length() == 0)
+				msg += "<p>新しいパスワードを入力してください</p>";
 			if (rePassword.length() == 0)
-				msg += "<p>パスワードを再入力してください</p>";
-			if (!password.equals(rePassword))
-				msg += "<p>パスワードが一致していません</p>";
+				msg += "<p>新しいパスワードを再入力してください</p>";
+			if (!newPassword.equals(rePassword))
+				msg += "<p>新しいパスワードが一致していません</p>";
 			if (address.length() == 0)
 				msg += "<p>住所を入力してください</p>";
 			if (tel.length() == 0)
@@ -305,6 +308,12 @@ public class AccountController {
 					}
 				}
 			}
+
+			List<Contact> contacts = contactRepository.findByCustomerIdOrderById(id);
+			for (Contact contact : contacts) {
+				contactRepository.deleteById(contact.getId());
+			}
+
 			customerRepository.deleteById(id);
 			if (account.getId() == id) {
 				account.setId(null);

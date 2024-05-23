@@ -1,27 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
-	<meta charset="UTF-8">
-	<title>ショップ追加</title>
+<meta charset="UTF-8">
+<title>カテゴリー追加</title>
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 </head>
-
 <body>
-	<header th:replace="~{shop/shopHeader}"></header>
+<header th:replace="~{admin/adminHeader}"></header>
 	<main id="main">
 		<h1>ショップ追加</h1>
-		<span th:utext="${msg}"></span>
-		<form action="/shop/add" method="post">
+		<p th:text="${msg}" style="color: red;"></p>
+		<form action="/admin/category/add" method="post">
 			<table border="1">
 				<tr>
-					<th>プラン</th>
-					<td th:each="plan:${plans}" th:if="${plan.id == 2}" th:text="${plan.name}"></td>
-				</tr>
-				<tr>
-					<th>ショップ名</th>
-					<td><input type="text" name="name" th:value="${name}"></td>
+					<th>カテゴリー名</th>
+					<td style="padding: 5px;"><input type="text" name="name" th:value="${name}" placeholder="Category Name" style="width: 90%;"></td>
 				</tr>
 			</table>
 			<button>作成</button>
@@ -29,5 +23,4 @@
 	</main>
 	<footer th:replace="~{footer}"></footer>
 </body>
-
 </html>

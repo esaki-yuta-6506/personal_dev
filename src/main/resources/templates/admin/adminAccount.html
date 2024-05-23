@@ -9,7 +9,7 @@
 </head>
 
 <body>
-	<header th:replace="admin/adminHeader"></header>
+	<header th:replace="~{admin/adminHeader}"></header>
 	<main id="main">
 		<h1>アカウント管理</h1>
 		<p th:text="${msg}" style="color: red;">
@@ -39,7 +39,7 @@
 		</table>
 		<a href="/admin/account/add">アカウント追加</a>
 	</main>
-	<footer th:replace="footer"></footer>
+	<footer th:replace="~{footer}"></footer>
 </body>
 
 </html>

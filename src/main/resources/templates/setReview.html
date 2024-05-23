@@ -5,7 +5,7 @@
 <title>レビュー編集</title><link rel="stylesheet" type="text/css" href="/css/style.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script></head>
 <body>
-<header th:replace="defaultHeader"></header>
+<header th:replace="~{defaultHeader}"></header>
 	<a th:href="'/items/' + ${item.id}">戻る</a><br>
 	<h1>レビュー編集</h1>
 	<span th:utext="${msg}" style="color: red;"></span>
@@ -32,5 +32,5 @@
 		</table>
 		<button>投稿</button>
 	</form>
-<footer th:replace="footer"></footer></body>
+<footer th:replace="~{footer}"></footer></body>
 </html>

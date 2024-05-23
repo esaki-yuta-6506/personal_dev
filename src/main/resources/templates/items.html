@@ -9,7 +9,7 @@
 </head>
 
 <body>
-	<header th:replace="defaultHeader"></header>
+	<header th:replace="~{defaultHeader}"></header>
 	<main id="main" class="items">
 		<side></side>
 		<nav>
@@ -37,7 +37,6 @@
 		<div>
 			<table border="1">
 				<tr>
-					<th>ID</th>
 					<th>商品名</th>
 					<th>カテゴリー</th>
 					<th>ショップ</th>
@@ -46,7 +45,6 @@
 					<th></th>
 				</tr>
 				<tr th:each="item : ${items}" th:if="${item.stockCount > 0 && item.status == 2}">
-					<td th:text="${item.id}"></td>
 					<td th:utext="${item.url}"></td>
 					<th:block th:each="category:${categories}">
 						<td th:if="${item.categoryId == category.id}" th:text="${category.name}"></td>
@@ -70,7 +68,7 @@
 
 		<side></side>
 	</main>
-	<footer th:replace="footer"></footer>
+	<footer th:replace="~{footer}"></footer>
 </body>
 
 </html>

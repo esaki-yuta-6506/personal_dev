@@ -9,7 +9,7 @@
 </head>
 
 <body>
-	<header th:replace="defaultHeader"></header>
+	<header th:replace="~{defaultHeader}"></header>
 	<h1>カート</h1>
 	<table border="1">
 		<tr>
@@ -41,7 +41,7 @@
 		<button>注文する</button>
 	</form>
 	<a href="/items">商品一覧へ</a>
-	<footer th:replace="footer"></footer>
+	<footer th:replace="~{footer}"></footer>
 </body>
 
 </html>
