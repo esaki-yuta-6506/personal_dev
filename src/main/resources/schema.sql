@@ -4,8 +4,6 @@ DROP TABLE IF EXISTS items;
 DROP TABLE IF EXISTS modes;
 DROP TABLE IF EXISTS customers;
 DROP TABLE IF EXISTS contacts;
-DROP TABLE IF EXISTS wallets;
-DROP TABLE IF EXISTS user_wallets;
 DROP TABLE IF EXISTS orders;
 DROP TABLE IF EXISTS order_details;
 DROP TABLE IF EXISTS plans;
@@ -55,21 +53,6 @@ CREATE TABLE contacts
    address TEXT,
    tel TEXT,
    email TEXT
-);
--- 決済方法テーブル
-CREATE TABLE wallets
-(
-   id SERIAL PRIMARY KEY,
-   name TEXT
-);
--- ユーザー決済方法テーブル
-CREATE TABLE user_wallets
-(
-   id SERIAL PRIMARY KEY,
-   customer_id INTEGER,
-   wallet_id INTEGER,
-   wallet_number TEXT,
-   wallet_key TEXT
 );
 -- 注文テーブル
 CREATE TABLE orders

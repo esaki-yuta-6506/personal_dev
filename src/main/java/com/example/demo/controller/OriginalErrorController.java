@@ -9,6 +9,7 @@ import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -27,7 +28,7 @@ public class OriginalErrorController implements ErrorController {
 	   * @param mav レスポンス情報
 	   * @return HTML レスポンス用の ModelAndView オブジェクト
 	   */
-	@RequestMapping(produces = MediaType.TEXT_HTML_VALUE)
+	@GetMapping(produces = MediaType.TEXT_HTML_VALUE)
 	public ModelAndView myErrorHtml(HttpServletRequest req, ModelAndView mav) {
 
 		// エラー情報を取得

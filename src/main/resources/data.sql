@@ -34,12 +34,6 @@ INSERT INTO contacts(customer_id, name, address, tel, email) VALUES(3, '坂本�
 INSERT INTO contacts(customer_id, name, address, tel, email) VALUES(4, '田中太郎', '東京都', '090-1111-1111', 'tanaka@aaa.com');
 INSERT INTO contacts(customer_id, name, address, tel, email) VALUES(5, '鈴木一郎', '大阪府', '090-1111-2222', 'suzuki@aaa.com');
 
-INSERT INTO wallets(name) VALUES('現金');
-INSERT INTO wallets(name) VALUES('クレジットカード');
-INSERT INTO wallets(name) VALUES('paypoi');
-
-INSERT INTO user_wallets(customer_id, wallet_id, wallet_number, wallet_key) VALUES(5, 2, '1111000022223333', '123');
-
 INSERT INTO orders(customer_id, contact_id, ordered_on, total_price) VALUES(5, 0, '2024/4/12', 6760);
 INSERT INTO orders(customer_id, contact_id, ordered_on, total_price) VALUES(6, 0, '2024/4/13', 2500);
 
