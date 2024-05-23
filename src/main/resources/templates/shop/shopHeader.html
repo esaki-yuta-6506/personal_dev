@@ -1,5 +1,5 @@
 <header id="header">
-	<h1>Encircle Market</h1>
+	<h1><a href="/items" style="text-decoration:none; color: black;">Encircle Market</a></h1>
 	<div>
 		<box>
 			<a href="/shop" class="left">ショップメニュー</a>
@@ -8,7 +8,7 @@
 			<a href="/items" id="center">トップページ</a>
 		</box3>
 		<box2>
-			<span th:text="${@account.name}+' さん'"></span>　
+			<span th:utext="${@account.url}+' さん'"></span>　
 			<a href="/logout">ログアウト</a>
 		</box2>
 	</div>

@@ -13,7 +13,7 @@
 		<h1><a href="/items" style="text-decoration:none; color: black;">Encircle Market</a></h1>
 		<div>
 			<box2>
-				<span th:text="${@account.name}+' さん'"></span>　
+				<span th:utext="${@account.url}+' さん'"></span>　
 				<a href="/logout">ログアウト</a>
 			</box2>
 			<script>
