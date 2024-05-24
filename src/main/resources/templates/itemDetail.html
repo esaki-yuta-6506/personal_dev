@@ -52,8 +52,8 @@
 							<th align="left" style="position: relative;">
 								<span th:text="${review.title}"></span>
 								<box2 style="right: 0; position: absolute;">
-									<a th:href="'/items/' + ${item.id} + '/review/' + ${review.id}">編集</a>
-									<a th:href="'/items/' + ${item.id} + '/review/' + ${review.id} + '/delete'">削除</a>
+									<a th:href="'/items/' + ${item.id} + '/review/' + ${review.id}"  th:if="${review.customerId == @account.id}">編集</a>
+									<a th:href="'/items/' + ${item.id} + '/review/' + ${review.id} + '/delete'"  th:if="${review.customerId == @account.id}">削除</a>
 									<span th:text="${review.reviewedOn}"></span>
 								</box2>
 							</th>

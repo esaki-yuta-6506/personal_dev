@@ -3,103 +3,108 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>注文</title><link rel="stylesheet" type="text/css" href="/css/style.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script></head>
+	<title>注文</title>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+</head>
 
 <body>
 	<header th:replace="~{defaultHeader}"></header>
-	<h1>注文</h1>
-	<span th:utext="${msg}" style="color: red;"></span>
-	<h3>ご注文商品</h3>
-	<table border="1">
-		<tr>
-			<th>NO</th>
-			<th>商品名</th>
-			<th>値段</th>
-			<th>個数</th>
-			<th>小計</th>
-			<th></th>
-		</tr>
-		<tr th:each="item:${@cart.items}">
-			<td th:text="${item.id}"></td>
-			<td th:text="${item.name}"></td>
-			<td th:text="${item.price}"></td>
-			<td th:text="${item.quantity}"></td>
-			<td th:text="${item.price * item.quantity}"></td>
-			<td>
-				<form action="/cart/delete" method="post">
-					<input type="hidden" name="itemId" th:value="${item.id}">
-					<button>削除</button>
-				</form>
-			</td>
-		</tr>
-		<tr>
-			<td algin="right" colspan="6" th:text="'総計：'+${@cart.totalPrice}"></td>
-		</tr>
-	</table>
-	<hr>
-	<h3>お客様情報</h3>
-	<table border="1">
-		<tr>
-			<th>お名前</th>
-			<td th:text="${customer.name}"></td>
-		</tr>
-		<tr>
-			<th>住所</th>
-			<td th:text="${customer.address}"></td>
-		</tr>
-		<tr>
-			<th>電話番号</th>
-			<td th:text="${customer.tel}"></td>
-		</tr>
-		<tr>
-			<th>e-mail</th>
-			<td th:text="${customer.email}"></td>
-		</tr>
-	</table>
-	<hr>
-
-
-	<form action="/order/confirm" method="post">
-		<h3>配送先情報</h3>
-		<p style="font-size: 20px;">配送先：
-			<select name="id" style="font-size: 20px;">
-				<option value="-1">新たに配送先を作成する</option>
-				<option value="0">自宅に配送する</option>
-				<th:block th:each="contact:${contacts}">
-					<option th:if="${contact.customerId == @account.id}" th:value="${contact.id}"
-						th:text="${contact.name} + ' ' + ${contact.address}"></option>
-				</th:block>
-			</select></p>
+	<main id="main">
+		<h1>注文</h1>
+		<span th:utext="${msg}" style="color: red;"></span>
+		<h3>ご注文商品</h3>
+		<table border="1">
+			<tr>
+				<th>NO</th>
+				<th>商品名</th>
+				<th>値段</th>
+				<th>個数</th>
+				<th>小計</th>
+				<th></th>
+			</tr>
+			<tr th:each="item:${@cart.items}">
+				<td th:text="${item.id}"></td>
+				<td th:text="${item.name}"></td>
+				<td th:text="${item.price}"></td>
+				<td th:text="${item.quantity}"></td>
+				<td th:text="${item.price * item.quantity}"></td>
+				<td>
+					<form action="/cart/delete" method="post">
+						<input type="hidden" name="itemId" th:value="${item.id}">
+						<button>削除</button>
+					</form>
+				</td>
+			</tr>
+			<tr>
+				<td algin="right" colspan="6" th:text="'総計：'+${@cart.totalPrice}"></td>
+			</tr>
+		</table>
+		<hr>
+		<h3>お客様情報</h3>
 		<table border="1">
 			<tr>
 				<th>お名前</th>
-				<td>
-					<input type="text" name="name" th:value="${name}">
-				</td>
+				<td th:text="${customer.name}"></td>
 			</tr>
 			<tr>
 				<th>住所</th>
-				<td>
-					<input type="text" name="address" th:value="${address}">
-				</td>
+				<td th:text="${customer.address}"></td>
 			</tr>
 			<tr>
 				<th>電話番号</th>
-				<td>
-					<input type="text" name="tel" th:value="${tel}">
-				</td>
+				<td th:text="${customer.tel}"></td>
 			</tr>
 			<tr>
 				<th>e-mail</th>
-				<td>
-					<input type="text" name="email" th:value="${email}">
-				</td>
+				<td th:text="${customer.email}"></td>
 			</tr>
 		</table>
-		<button>注文</button>
-	</form>
-	<a href="/items">商品一覧へ</a>
-<footer th:replace="~{footer}"></footer></body>
+		<hr>
+
+
+		<form action="/order/confirm" method="post">
+			<h3>配送先情報</h3>
+			<p style="font-size: 20px;">配送先：
+				<select name="id" style="font-size: 20px;">
+					<option value="-1">新たに配送先を作成する</option>
+					<option value="0">自宅に配送する</option>
+					<th:block th:each="contact:${contacts}">
+						<option th:if="${contact.customerId == @account.id}" th:value="${contact.id}"
+							th:text="${contact.name} + ' ' + ${contact.address}"></option>
+					</th:block>
+				</select>
+			</p>
+			<table border="1">
+				<tr>
+					<th>お名前</th>
+					<td>
+						<input type="text" name="name" th:value="${name}">
+					</td>
+				</tr>
+				<tr>
+					<th>住所</th>
+					<td>
+						<input type="text" name="address" th:value="${address}">
+					</td>
+				</tr>
+				<tr>
+					<th>電話番号</th>
+					<td>
+						<input type="text" name="tel" th:value="${tel}">
+					</td>
+				</tr>
+				<tr>
+					<th>e-mail</th>
+					<td>
+						<input type="text" name="email" th:value="${email}">
+					</td>
+				</tr>
+			</table>
+			<button>注文</button>
+		</form>
+	</main>
+	<footer th:replace="~{footer}"></footer>
+</body>
 
 </html>

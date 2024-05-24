@@ -64,7 +64,7 @@ public class ItemController {
 			url += "&minprice=" + minprice;
 		}
 		if (maxprice != null) {
-			url += "&minprice=" + maxprice;
+			url += "&maxprice=" + maxprice;
 		}
 
 		if (items.size() == 0)

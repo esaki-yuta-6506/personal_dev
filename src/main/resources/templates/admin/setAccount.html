@@ -3,53 +3,57 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>アカウント編集</title><link rel="stylesheet" type="text/css" href="/css/style.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script></head>
+	<title>アカウント編集</title>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+</head>
 
 <body>
-	
+
 	<header th:replace="~{admin/adminHeader}"></header>
 	<main id="main">
-	<h1>アカウント更新</h1>
-	<span style="color: red;" th:utext="${msg}"></span>
-	<form th:action="'/admin/account/set/' + ${id}" method="post">
-		<table border="1">
-			<tr>
-				<th>モード</th>
-				<td>
-					<select name="modeId">
-						<option th:each="mode:${modes}" th:value="${mode.id}" th:text="${mode.name}"
-							th:selected="${modeId == mode.id}"></option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<th>名前</th>
-				<td><input type="text" name="name" th:value="${name}" placeholder="Name"></td>
-			</tr>
-			<tr>
-				<th>メールアドレス</th>
-				<td><input type="text" name="email" th:value="${email}" placeholder="E-mail"></td>
-			</tr>
-			<tr>
-				<th>パスワード</th>
-				<td><input type="text" name="password" th:value="${password}" placeholder="Password"></td>
-			</tr>
-			<tr>
-				<th>パスワード(※もう一度入力してください)</th>
-				<td><input type="text" name="rePassword" placeholder="Password"></td>
-			</tr>
-			<tr>
-				<th>住所</th>
-				<td><input type="text" name="address" th:value="${address}" placeholder="Address"></td>
-			</tr>
-			<tr>
-				<th>電話番号</th>
-				<td><input type="text" name="tel" th:value="${tel}" placeholder="TEL"></td>
-			</tr>
-		</table><br>
-		<button>更新</button>
-	</form>
-<footer th:replace="~{footer}"></footer></body>
+		<h1>アカウント更新</h1>
+		<span style="color: red;" th:utext="${msg}"></span>
+		<form th:action="'/admin/account/set/' + ${id}" method="post">
+			<table border="1">
+				<tr>
+					<th>モード</th>
+					<td>
+						<select name="modeId">
+							<option th:each="mode:${modes}" th:value="${mode.id}" th:text="${mode.name}"
+								th:selected="${modeId == mode.id}"></option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>名前</th>
+					<td><input type="text" name="name" th:value="${name}" placeholder="Name"></td>
+				</tr>
+				<tr>
+					<th>メールアドレス</th>
+					<td><input type="text" name="email" th:value="${email}" placeholder="E-mail"></td>
+				</tr>
+				<tr>
+					<th>パスワード</th>
+					<td><input type="text" name="password" th:value="${password}" placeholder="Password"></td>
+				</tr>
+				<tr>
+					<th>パスワード(※もう一度入力してください)</th>
+					<td><input type="text" name="rePassword" placeholder="Password"></td>
+				</tr>
+				<tr>
+					<th>住所</th>
+					<td><input type="text" name="address" th:value="${address}" placeholder="Address"></td>
+				</tr>
+				<tr>
+					<th>電話番号</th>
+					<td><input type="text" name="tel" th:value="${tel}" placeholder="TEL"></td>
+				</tr>
+			</table><br>
+			<button>更新</button>
+		</form>
+	</main>
+	<footer th:replace="~{footer}"></footer>
+</body>
 
 </html>
