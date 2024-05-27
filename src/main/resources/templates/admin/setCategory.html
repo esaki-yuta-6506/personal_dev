@@ -9,7 +9,7 @@
 <body>
 <header th:replace="~{admin/adminHeader}"></header>
 	<main id="main">
-		<h1>ショップ更新</h1>
+		<h1>カテゴリー更新</h1>
 		<p th:text="${msg}" style="color: red;"></p>
 		<form th:action="'/admin/category/set/' + ${category.id}" method="post">
 			<table border="1">
